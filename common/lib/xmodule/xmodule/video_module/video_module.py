@@ -349,32 +349,58 @@ class VideoModule(VideoFields, XModule):
                return Response(status=204)
 			if request.method == 'POST':
                try:
-                   # TODO: Implement logic of uploading
-                   f = request.params['file']
+                   # TODO: Implement logic for uploading
+                   # When we click `Upload` button
+                   f = request.POST['file']
                    return Response(json.dumps({'videoId': f.filename}), status=201)
                except:
-                   return Response("Failed to upload", status=400
+                   return Response("Failed to upload", status=400)
 
 			if request.method == 'GET':
                 if 'language' not in request.GET:
                     log.info("Invalid /transcript GET parameters.")
                     return Response(status=400)
 
-                lang = request.GET.get('language')
-            	if lang not in ['en'] + self.transcripts.keys():
-                	log.info("Video: transcript facilities are not available for given language.")
-                	return Response(status=404)
-	            if lang != self.transcript_language:
-    	            self.transcript_language = lang
+                if lang not in ['en'] + self.transcripts.keys():
+                    log.info("Video: transcript facilities are not available for given language.")
+                    return Response(status=404)
+                if lang != self.transcript_language:
+                    self.transcript_language = lang
 
-        	    try:
-            	    transcript = self.translation(request.GET.get('videoId', None))
-	            except (TranscriptException, NotFoundError) as ex:
-    	            log.info(ex.message)
-        	        response = Response(status=404)
-	            else:
-    	            response = Response(transcript)
-        	        response.content_type = 'application/json'
+                if 'videoId' not in request.GET:
+                    if lang == 'en':
+                        videoId = self.sub
+                    else :
+                        videoId = self.transcripts.get(lang)
+
+
+                    # TODO: Should be refactored, but, for now, it returns response
+                    # with 200 status code
+                    # When we click `Download` button
+                    response = Response(
+                        'test content',
+                        headerlist=[
+                            ('Content-Disposition', 'attachment; filename="{0}.srt"'.format(lang)),
+                        ]
+                    )
+                    response.content_type = "application/x-subrip"
+
+                    return response
+
+
+
+
+                else:
+                     videoId = request.GET.get('videoId')
+
+                try:
+                    transcript = self.translation(videoId)
+                except TranscriptException as ex:
+                    log.info(ex.message)
+                    return Response(status=404)
+                else:
+                    response = Response(transcript)
+                    response.content_type = 'application/json'
 
         elif dispatch == 'download':
             try:
