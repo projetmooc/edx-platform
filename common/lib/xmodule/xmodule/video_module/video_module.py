@@ -344,28 +344,37 @@ class VideoModule(VideoFields, XModule):
         `translation`: returns jsoned translation text.
         `available_translations`: returns list of languages, for which SRT files exist. For 'en' check if SJSON exists.
         """
-        if request.method == 'DELETE':
-            return Response(status=204)
-        if dispatch == 'translation':
-            if 'language' not in request.GET:
-                log.info("Invalid /transcript GET parameters.")
-                return Response(status=400)
+        if dispatch.startswith('translation/'):
+            if request.method == 'DELETE':
+               return Response(status=204)
+			if request.method == 'POST':
+               try:
+                   # TODO: Implement logic of uploading
+                   f = request.params['file']
+                   return Response(json.dumps({'videoId': f.filename}), status=201)
+               except:
+                   return Response("Failed to upload", status=400
 
-            lang = request.GET.get('language')
-            if lang not in ['en'] + self.transcripts.keys():
-                log.info("Video: transcript facilities are not available for given language.")
-                return Response(status=404)
-            if lang != self.transcript_language:
-                self.transcript_language = lang
+			if request.method == 'GET':
+                if 'language' not in request.GET:
+                    log.info("Invalid /transcript GET parameters.")
+                    return Response(status=400)
 
-            try:
-                transcript = self.translation(request.GET.get('videoId', None))
-            except (TranscriptException, NotFoundError) as ex:
-                log.info(ex.message)
-                response = Response(status=404)
-            else:
-                response = Response(transcript)
-                response.content_type = 'application/json'
+                lang = request.GET.get('language')
+            	if lang not in ['en'] + self.transcripts.keys():
+                	log.info("Video: transcript facilities are not available for given language.")
+                	return Response(status=404)
+	            if lang != self.transcript_language:
+    	            self.transcript_language = lang
+
+        	    try:
+            	    transcript = self.translation(request.GET.get('videoId', None))
+	            except (TranscriptException, NotFoundError) as ex:
+    	            log.info(ex.message)
+        	        response = Response(status=404)
+	            else:
+    	            response = Response(transcript)
+        	        response.content_type = 'application/json'
 
         elif dispatch == 'download':
             try:
@@ -550,8 +559,8 @@ class VideoDescriptor(VideoFields, TabsEditingDescriptor, EmptyDataRawDescriptor
         languages.sort(key=lambda l: l['label'])
 
         editable_fields['transcripts']['languages'] = languages
-        editable_fields['transcripts']['type'] = 'VideoDict'
-        # @TODO: fix link
+        editable_fields['transcripts']['type'] = 'VideoTranslations'
+        # @TODO: fix the link
         editable_fields['transcripts']['urlRoot'] = '/preview' + self.runtime.handler_url(self, 'transcript').rstrip('/?') + '/translation'
 
         return editable_fields
