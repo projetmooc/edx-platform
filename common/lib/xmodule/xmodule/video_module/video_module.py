@@ -381,7 +381,7 @@ class VideoModule(VideoFields, XModule):
                 subs, sub_filename = self.get_transcript()
             except (NotFoundError, ValueError, KeyError):
                 log.debug("Video@download exception")
-                response = Response(status=404)
+                return Response(status=404)
             else:
                 response = Response(
                     subs,
