@@ -159,7 +159,7 @@ class VideoFields(object):
     transcript_language = String(
         help="Preferred language for transcript",
         display_name="Preferred language for transcript",
-        scope=Scope.settings,
+        scope=Scope.preferences,
         default="en"
     )
     speed = Float(
@@ -378,7 +378,6 @@ class VideoModule(VideoFields, XModule):
 
                     from xmodule.contentstore.content import StaticContent
                     from xmodule.contentstore.django import contentstore
-
                     mime_type = 'text/plain'
                     upload_filename = '{}_subs_{}'.format(language, subtitle.filename)
                     content_location = asset_location(self.location, upload_filename)
@@ -391,8 +390,11 @@ class VideoModule(VideoFields, XModule):
                 except:
                     return Response("Failed to upload", status=400)
 
-			if request.method == 'GET':
-                if 'language' not in request.GET:
+            if request.method == 'GET':
+
+                lang = request.GET.get('language') or dispatch.split('/').pop()
+
+                if not lang:
                     log.info("Invalid /transcript GET parameters.")
                     return Response(status=400)
 
@@ -402,28 +404,29 @@ class VideoModule(VideoFields, XModule):
                 if lang != self.transcript_language:
                     self.transcript_language = lang
 
+                # Download subtitle
                 if 'videoId' not in request.GET:
+
                     if lang == 'en':
                         videoId = self.sub
                     else :
                         videoId = self.transcripts.get(lang)
 
-
-                    # TODO: Should be refactored, but, for now, it returns response
-                    # with 200 status code
-                    # When we click `Download` button
-                    response = Response(
-                        'test content',
-                        headerlist=[
-                            ('Content-Disposition', 'attachment; filename="{0}.srt"'.format(lang)),
-                        ]
-                    )
-                    response.content_type = "application/x-subrip"
-
-                    return response
-
-
-
+                    try:
+                        subtitle = self.get_transcript()
+                        filename = self.transcripts[self.transcript_language]
+                    except (NotFoundError, ValueError, KeyError):
+                        log.debug("Video@download exception")
+                        return Response(status=404)
+                    else:
+                        response = Response(
+                            subtitle,
+                            headerlist=[
+                                ('Content-Disposition', 'attachment; filename="{}"'.format(filename)),
+                            ]
+                        )
+                        response.content_type = "application/x-subrip"
+                        return response
 
                 else:
                      videoId = request.GET.get('videoId')
@@ -436,7 +439,7 @@ class VideoModule(VideoFields, XModule):
                 else:
                     response = Response(transcript)
                     response.content_type = 'application/json'
-
+        '''
         elif dispatch == 'download':
             try:
                 subs, sub_filename = self.get_transcript()
@@ -475,7 +478,7 @@ class VideoModule(VideoFields, XModule):
         else:  # unknown dispatch
             log.debug("Dispatch is not allowed")
             response = Response(status=404)
-
+        '''
         return response
 
     def translation(self, youtube_id):
