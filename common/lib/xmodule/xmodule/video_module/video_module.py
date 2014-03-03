@@ -350,25 +350,14 @@ class VideoModule(VideoFields, XModule):
         `translation`: returns jsoned translation text.
         `available_translations`: returns list of languages, for which SRT files exist. For 'en' check if SJSON exists.
         """
+
         if dispatch.startswith('translation/'):
+
             if request.method == 'DELETE':
-                try:
-                    lang = request.params.get('language') or dispatch.split('/').pop()
-                    if lang:
-                        # TODO: Implement logic for single removing
-                        # When we click `Remove` button
-                        pass
-                    else:
-                        # TODO: Implement logic for multiple removing
-                        # When we click `Revert` button
-                        # Remove ALL translations
-                        pass
-
                     return Response(status=204)
-                except:
-                    return Response("Failed to delete", status=400)
 
-            if request.method == 'POST':
+
+            elif request.method == 'POST':
                 try:
 
                     subtitle = request.POST['file']
@@ -390,7 +379,7 @@ class VideoModule(VideoFields, XModule):
                 except:
                     return Response("Failed to upload", status=400)
 
-            if request.method == 'GET':
+            elif request.method == 'GET':
 
                 lang = request.GET.get('language') or dispatch.split('/').pop()
 
@@ -478,7 +467,6 @@ class VideoModule(VideoFields, XModule):
         else:  # unknown dispatch
             log.debug("Dispatch is not allowed")
             response = Response(status=404)
-        '''
         return response
 
     def translation(self, youtube_id):
@@ -625,7 +613,10 @@ class VideoDescriptor(VideoFields, TabsEditingDescriptor, EmptyDataRawDescriptor
         editable_fields['transcripts']['languages'] = languages
         editable_fields['transcripts']['type'] = 'VideoTranslations'
         # @TODO: fix the link
-        editable_fields['transcripts']['urlRoot'] = '/preview' + self.runtime.handler_url(self, 'transcript').rstrip('/?') + '/translation'
+        try:
+            editable_fields['transcripts']['urlRoot'] = '/preview' + self.runtime.handler_url(self, 'transcript').rstrip('/?') + '/translation'
+        except NotImplementedError:
+            pass
 
         return editable_fields
 
