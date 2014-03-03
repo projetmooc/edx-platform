@@ -297,22 +297,41 @@ class VideoModule(VideoFields, XModule):
 
     def get_transcript(self):
         """
-        Returns transcript in *.srt format.
+        Returns transcript in *.srt format and sub_id.
+
+        sub_id is self.sub or srt filename w/o extension.
 
         Raises:
             - NotFoundError if cannot find transcript file in storage.
             - ValueError if transcript file is empty or incorrect JSON.
             - KeyError if transcript file has incorrect format.
+
+        If language is 'en' self.sub should be correct subtitles name.
+        If language is 'en', but If self.sub is not defined, this means that we should search for video name in order to get proper subs (old style courses)
+        If language is not 'en', just give back proper srt file content.
         """
         lang = self.transcript_language
-        subs_id = self.sub if lang == 'en' else self.youtube_id_1_0
-        data = asset(self.location, subs_id, lang).data
-        str_subs = generate_srt_from_sjson(json.loads(data), speed=1.0)
-        if not str_subs:
+        if lang == 'en':
+            if self.sub:
+                sub_id = self.sub
+            elif self.youtube_id_1_0:  # old courses
+                sub_id = self.youtube_id_1_0
+            elif self.html5_sources:
+                sub_id = sef.html5_sources[0]  # old courses
+            else:
+                log.debug("No subtitles for 'en' language")
+                raise ValueError
+            data = asset(self.location, sub_id, lang).data
+            srt_subs = generate_srt_from_sjson(json.loads(data), speed=1.0)
+            sub_filename = sub_id
+        else:
+            srt_subs = asset(self.location, None, None, self.transcripts[lang]).data
+            sub_filename = os.path.splitext(self.transcripts[lang])[0]
+        if not srt_subs:
             log.debug('generate_srt_from_sjson produces no subtitles')
             raise ValueError
 
-        return str_subs
+        return srt_subs, sub_filename
 
     @XBlock.handler
     def transcript(self, request, dispatch):
@@ -350,7 +369,7 @@ class VideoModule(VideoFields, XModule):
 
         elif dispatch == 'download':
             try:
-                subs = self.get_transcript()
+                subs, sub_filename = self.get_transcript()
             except (NotFoundError, ValueError, KeyError):
                 log.debug("Video@download exception")
                 response = Response(status=404)
@@ -358,7 +377,7 @@ class VideoModule(VideoFields, XModule):
                 response = Response(
                     subs,
                     headerlist=[
-                        ('Content-Disposition', 'attachment; filename="{0}.srt"'.format(self.transcript_language)),
+                        ('Content-Disposition', 'attachment; filename="{0}.srt"'.format(sub_filename)),
                     ]
                 )
                 response.content_type = "application/x-subrip"
@@ -449,8 +468,6 @@ class VideoModule(VideoFields, XModule):
                 return asset(self.location, self.sub).data
             else:
                 return get_or_create_sjson(self)
-
-
 
 
 class VideoDescriptor(VideoFields, TabsEditingDescriptor, EmptyDataRawDescriptor):
