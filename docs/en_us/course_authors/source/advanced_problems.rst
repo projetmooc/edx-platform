@@ -515,7 +515,7 @@ In an image mapped input problem, students click inside a defined area
 in an image. You define this area by including coordinates in the body
 of the problem.
 
-.. image:: Images/ImageMappedInputExample.gif
+.. image:: Images/image294.png
  :alt: Image of an image mapped input problem
 
 Create an Image Mapped Input Problem

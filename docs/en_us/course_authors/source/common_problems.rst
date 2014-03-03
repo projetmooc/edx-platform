@@ -4,10 +4,7 @@
 Common Problems
 ############################
 
-*Common problems* are typical problems such as multiple choice problems
-and other problems whose answers are simple for students to select or
-enter. You can create all of these problems using the Simple Editor in
-Studio. You don't have to use XML or switch to the Advanced Editor.
+*Common problems* are typical problems such as multiple choice problems and other problems whose answers are simple for students to select or enter. You can create all of these problems using the Simple Editor in Studio. You don't have to use XML or switch to the Advanced Editor. (However, this section also provides sample XML code for these problems in the Advanced Editor.)
 
 The following are the common problem types in Studio:
 
@@ -413,11 +410,11 @@ Numerical Input
 In numerical input problems, students enter numbers or specific and
 relatively simple mathematical expressions to answer a question. 
 
-.. image:: Images/NumericalInputExample.gif
- :alt: Image of a simple numerical input problem
+.. image:: Images/image292.png
+ :alt: Image of a numerical input problem
 
 Note that students' responses don't have to be exact for these problems. You can 
-specify a margin of error, or tolerance. For more information, see the instructions below.
+specify a margin of error, or tolerance. YOu can also specify a correct answer explicitly, or use a Python script. For more information, see the instructions below.
 
 Responses for numerical input problems can include integers, fractions,
 and constants such as *pi* and *g*. Responses can also include text
@@ -426,8 +423,22 @@ representing common functions, such as square root (sqrt) and log base 2
 sine (sin) and arcsine (arcsin). For these functions, Studio changes the
 text that the student enters into mathematical symbols. The following
 example shows the way Studio renders students' text responses in
-numerical input problems. To see more examples, scroll down to **Examples**.
+numerical input problems. 
 
+.. image:: Images/Math5.gif
+ :alt: Image of a numerical input probem rendered by Studio
+
+The following are a few more examples of the way that Studio renders numerical input
+text that students enter.
+
+.. image:: Images/Math1.gif
+ :alt: Image of a numerical input probem rendered by Studio
+.. image:: Images/Math2.gif
+ :alt: Image of a numerical input probem rendered by Studio
+.. image:: Images/Math3.gif
+ :alt: Image of a numerical input probem rendered by Studio
+.. image:: Images/Math4.gif
+ :alt: Image of a numerical input probem rendered by Studio
 .. image:: Images/Math5.gif
  :alt: Image of a numerical input probem rendered by Studio
 
@@ -579,23 +590,11 @@ following.
 Create a Numerical Input Problem in the Advanced Editor
 -------------------------------------------------------
 
-
-**Examples**
-
-The following are a few more examples of the way that Studio renders numerical input
-text that students enter.
-
-.. image:: Images/Math1.gif
- :alt: Image of a numerical input probem rendered by Studio
-.. image:: Images/Math2.gif
- :alt: Image of a numerical input probem rendered by Studio
-.. image:: Images/Math3.gif
- :alt: Image of a numerical input probem rendered by Studio
-.. image:: Images/Math4.gif
- :alt: Image of a numerical input probem rendered by Studio
-.. image:: Images/Math5.gif
- :alt: Image of a numerical input probem rendered by Studio
-
+Accepted input types include ``<formulaequationinput />`` and ``<textline />``.
+However, the math display on ``<textline math="1" />`` uses a different parser
+and has different capabilities than the response type--this may lead to student
+confusion. For this reason, we strongly urge using ``<formulaequationinput />``
+only, and the examples below show its use.
 
 **Problem Code**:
 

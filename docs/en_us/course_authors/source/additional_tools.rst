@@ -13,13 +13,113 @@ Individual course teams frequently create tools and problem types that don't hav
 
 Below, we provide you with all the files and code that you need to create the following tools and problem types.
 
-* :ref:`Gene Explorer`
 * :ref:`Chemical Equation`
+* :ref:`Gene Explorer`
 * :ref:`Interactive Periodic Table`
 * :ref:`Molecule Editor`
 * :ref:`Multiple Choice and Numerical Input`
 * :ref:`Polls`
 * :ref:`Protein Builder`
+
+
+.. _Chemical Equation:
+
+**************************
+Chemical Equation Problem
+**************************
+
+The chemical equation problem type allows the student to enter text that represents a chemical equation into a text box. The LMS converts that text into a chemical equation below the text box. The grader evaluates the student's response by using a Python script that you create and embed in the problem.
+
+.. image:: /Images/ChemicalEquationExample.png
+ :alt: Image of a chemical equation response problem
+
+====================================
+Create the Chemical Equation Problem
+====================================
+
+Chemical equation problems use MathJax to create formulas. For more information about using MathJax in Studio, see :ref:`MathJax in Studio`.
+
+To create the above chemical equation problem:
+
+#. In the unit where you want to create the problem, click **Problem** under **Add New Component**, and then click the **Advanced** tab.
+#. Click **Blank Advanced Problem**.
+#. In the component that appears, click **Edit**.
+#. In the component editor, paste the code from below.
+#. Click **Save**.
+
+====================================
+Chemical Equation Problem Code
+====================================
+
+.. code-block:: xml
+
+  <problem>
+    <startouttext/>
+    <p>Some problems may ask for a particular chemical equation. Practice by writing out the following reaction in the box below.</p>
+    
+  \( \text{H}_2\text{SO}_4 \longrightarrow \text { H}^+ + \text{ HSO}_4^-\)
+
+    <customresponse>
+      <chemicalequationinput size="50" label="Enter the chemical equation"/>
+      <answer type="loncapa/python">
+
+  if chemcalc.chemical_equations_equal(submission[0], 'H2SO4 -> H^+ + HSO4^-'):
+      correct = ['correct']
+  else:
+      correct = ['incorrect']
+
+      </answer>
+    </customresponse>
+    <p>Some tips:</p>
+    <ul>
+    <li>Use real element symbols.</li>
+    <li>Create subscripts by using plain text.</li>
+    <li>Create superscripts by using a caret (^).</li>
+    <li>Create the reaction arrow (\(\longrightarrow\)) by using "->".</li>
+    </ul>
+
+    <endouttext/>
+  
+   <solution>
+   <div class="detailed-solution">
+   <p>Solution</p>
+   <p>To create this equation, enter the following:</p>
+     <p>H2SO4 -> H^+ + HSO4^-</p>
+   </div>
+   </solution>
+  </problem>
+
+====================================
+Chemical Equation Problem Template
+====================================
+
+.. code-block:: xml
+
+  <problem>
+    <startouttext/>
+    <p>Problem text</p>
+
+    <customresponse>
+      <chemicalequationinput size="50" label="label text"/>
+      <answer type="loncapa/python">
+
+  if chemcalc.chemical_equations_equal(submission[0], 'TEXT REPRESENTING CHEMICAL EQUATION'):
+      correct = ['correct']
+  else:
+      correct = ['incorrect']
+
+      </answer>
+    </customresponse>
+
+    <endouttext/>
+  
+   <solution>
+   <div class="detailed-solution">
+   <p>Solution or Explanation Header</p>
+   <p>Solution or explanation text</p>
+   </div>
+   </solution>
+  </problem>
 
 .. _Gene Explorer:
 
@@ -70,76 +170,6 @@ In this code:
 * **genex_dna_sequence** is the default DNA sequence that appears when the problem opens.
 * **dna_sequence** contains the application's state and the student's answer. This value must be the same as **genex_dna_sequence**. 
 * **genex_problem_number** specifies the number of the problem. This number is based on the five gene editor problems in the MITx 7.00x course--for example, if you want this problem to look like the second gene editor problem in the 7.00x course, you would set the **genex_problem_number** value to 2. The number must be 1, 2, 3, 4, or 5.
-
-
-.. _Chemical Equation:
-
-**************************
-Chemical Equation Problem
-**************************
-
-The chemical equation problem type allows the student to enter chemical equations. The grader evaluates student responses by using a Python script that you create and embed in the problem.
-
-.. image:: /Images/ChemicalEquationExample.png
- :alt: Image of a chemical equation response problem
-
-====================================
-Create the Chemical Equation Problem
-====================================
-
-To create the above chemical equation problem:
-
-#. In the unit where you want to create the problem, click **Problem** under **Add New Component**, and then click the **Advanced** tab.
-#. Click **Blank Advanced Problem**.
-#. In the component that appears, click **Edit**.
-#. In the component editor, paste the code from below.
-#. Click **Save**.
-
-
-
-
-
-====================================
-Chemical Equation Problem Code
-====================================
-
-.. code-block:: xml
-
-  <problem>
-    <startouttext/>
-    <p>Some problems may ask for a particular chemical equation. Practice by writing out the following reaction in the box below.</p>
-    
-  \( \text{H}_2\text{SO}_4 \longrightarrow \text { H}^+ + \text{ HSO}_4^-\)
-
-    <customresponse>
-      <chemicalequationinput size="50" label="Enter the chemical equation"/>
-      <answer type="loncapa/python">
-
-  if chemcalc.chemical_equations_equal(submission[0], 'H2SO4 -> H^+ + HSO4^-'):
-      correct = ['correct']
-  else:
-      correct = ['incorrect']
-
-      </answer>
-    </customresponse>
-    <p>Some tips:</p>
-    <ul>
-    <li>Use real element symbols.</li>
-    <li>Create subscripts by using plain text.</li>
-    <li>Create superscripts by using a caret (^).</li>
-    <li>Create the reaction arrow (\(\longrightarrow\)) by using "->".</li>
-    </ul>
-
-    <endouttext/>
-  
-   <solution>
-   <div class="detailed-solution">
-   <p>Solution</p>
-   <p>To create this equation, enter the following:</p>
-     <p>H2SO4 -> H^+ + HSO4^-</p>
-   </div>
-   </solution>
-  </problem>
 
 
 .. _Interactive Periodic Table:
