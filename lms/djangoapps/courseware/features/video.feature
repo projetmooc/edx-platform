@@ -155,3 +155,12 @@ Feature: LMS Video component
     Then I see video aligned correctly with enabled transcript
     And I click video button "CC"
     Then I see video aligned correctly without enabled transcript
+
+  # 19
+  Scenario: Download button works correctly w/o english transcript in Youtube mode of Video component
+    Given the course has a Video component in Youtube_with_download mode:
+      | transcripts           |
+      | {"zh": "OEoXaMPEzfM"} |
+    And I make sure captions are opened
+    And I see "好 各位同学" text in the captions
+    And transcript is downloadable
