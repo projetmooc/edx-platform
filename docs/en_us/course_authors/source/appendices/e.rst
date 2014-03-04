@@ -12,7 +12,7 @@ This appendix provides information about the XML tags for most problem and tool 
 * :ref:`Choice Response`
 * :ref:`Chemical Equation Input`
 * :ref:`Custom Response`
-* :ref:`Drag and Drop`
+* :ref:`Drag and Drop XML`
 * :ref:`Formula Response`
 * :ref:`Image Response`
 * :ref:`Multiple Choice Response`
@@ -99,12 +99,13 @@ Custom Response ("Custom Python-Evaluated Input") Problems
    * - <textline size="10" correct_answer="3"/>
      - This tag includes the ``size``, ``correct_answer``, and ``label`` attributes. The ``correct_answer`` attribute is optional.
 
-.. _Drag and Drop:
+.. _Drag and Drop XML:
 
-Drag and Drop
--------------
+Drag and Drop XML
+-----------------
 
-
+For more information about how to create drag and drop problems, see `XML Format of Drag and Drop Input
+<https://edx.readthedocs.org/en/latest/course_data_formats/drag_and_drop/drag_and_drop_input.html>`_.
 
 .. _Formula Response:
 
@@ -328,6 +329,9 @@ student can construct a schematic answer, such as a circuit.
 
 
 .. _String Response:
+
+String Response 
+---------------
 
 **XML Tags**
 

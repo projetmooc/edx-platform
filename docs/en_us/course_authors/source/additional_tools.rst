@@ -14,6 +14,7 @@ Individual course teams frequently create tools and problem types that don't hav
 Below, we provide you with all the files and code that you need to create the following tools and problem types.
 
 * :ref:`Chemical Equation`
+* :ref:`Conditional Module`
 * :ref:`Gene Explorer`
 * :ref:`Interactive Periodic Table`
 * :ref:`Molecule Editor`
@@ -50,6 +51,18 @@ To create the above chemical equation problem:
 ====================================
 Chemical Equation Problem Code
 ====================================
+
+**Required Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<customresponse>``
+     - Indicates that this problem has a custom response. The ``<customresponse>`` tags must surround the ``<chemicalequation>`` tags.
+   * - ``<chemicalequationinput>``
+     - A child of ``<customresponse>``. Indicates that the answer to this problem is a chemical equation. Must contain the ``size`` and ``label`` attributes.
+   * - ``<answer type=loncapa/python>``
+     - A child of ``<chemicalequationinput>``. Contains the Python script that grades the problem.
 
 .. code-block:: xml
 
@@ -120,6 +133,90 @@ Chemical Equation Problem Template
    </div>
    </solution>
   </problem>
+
+.. _Conditional Module:
+
+******************
+Conditional Module
+******************
+
+==================
+Format description
+==================
+
+The main tag of Conditional module input is:
+
+.. code-block:: xml
+
+    <conditional> ... </conditional>
+
+``conditional`` can include any number of any xmodule tags (``html``, ``video``, ``poll``, etc.) or ``show`` tags.
+
+conditional tag
+---------------
+
+The main container for a single instance of Conditional module. The following attributes can
+be specified for this tag::
+
+    sources - location id of required modules, separated by ';'
+    [message | ""] - message for case, where one or more are not passed. Here you can use variable {link}, which generate link to required module.
+
+    [submitted] - map to `is_submitted` module method.
+    (pressing RESET button makes this function to return False.)
+
+    [correct] - map to `is_correct` module method
+    [attempted] - map to `is_attempted` module method
+    [poll_answer] - map to `poll_answer` module attribute
+    [voted] - map to `voted` module attribute
+
+show tag
+--------
+
+Symlink to some set of xmodules. The following attributes can
+be specified for this tag::
+
+    sources - location id of modules, separated by ';'
+
+=======
+Example
+=======
+
+Examples of conditional depends on poll
+-------------------------------------------
+
+.. code-block:: xml
+
+    <conditional sources="i4x://MITx/0.000x/poll_question/first_real_poll_seq_with_reset" poll_answer="man"
+    message="{link} must be answered for this to become visible.">
+        <html>
+            <h2>You see this, cause your vote value for "First question" was "man"</h2>
+        </html>
+    </conditional>
+
+Examples of conditional depends on poll (use <show> tag)
+--------------------------------------------------------
+
+.. code-block:: xml
+
+    <conditional sources="i4x://MITx/0.000x/poll_question/first_real_poll_seq_with_reset" poll_answer="man"
+    message="{link} must be answered for this to become visible.">
+        <html>
+            <show sources="i4x://MITx/0.000x/problem/test_1; i4x://MITx/0.000x/Video/Avi_resources; i4x://MITx/0.000x/problem/test_1"/>
+        </html>
+    </conditional>
+
+Examples of conditional depends on problem
+-------------------------------------------
+
+.. code-block:: xml
+
+    <conditional sources="i4x://MITx/0.000x/problem/Conditional:lec27_Q1" attempted="True">
+        <html display_name="HTML for attempted problem">You see this, cause "lec27_Q1" is attempted.</html>
+    </conditional>
+    <conditional sources="i4x://MITx/0.000x/problem/Conditional:lec27_Q1" attempted="False">
+        <html display_name="HTML for not attempted problem">You see this, cause "lec27_Q1" is not attempted.</html>
+    </conditional>
+
 
 .. _Gene Explorer:
 
@@ -524,6 +621,68 @@ Create a Poll
   
   * A .csv file that contains student responses to the problem is not currently available for polls. However, you can obtain the aggregate data directly in the problem.  
 
+==================
+Format description
+==================
+
+The main tag of Poll module input is:
+
+.. code-block:: xml
+
+    <poll_question> ... </poll_question>
+
+``poll_question`` can include any number of the following tags:
+any xml and ``answer`` tag. All inner xml, except for ``answer`` tags, we call "question".
+
+poll_question tag
+-----------------
+
+Xmodule for creating poll functionality - voting system. The following attributes can
+be specified for this tag::
+
+    name - Name of xmodule.
+    [display_name| AUTOGENERATE] - Display name of xmodule. When this attribute is not defined - display name autogenerate with some hash.
+    [reset | False] - Can reset/revote many time (value = True/False)
+
+
+answer tag
+----------
+
+Define one of the possible answer for poll module. The following attributes can
+be specified for this tag::
+
+    id - unique identifier (using to identify the different answers)
+
+Inner text - Display text for answer choice.
+
+Example
+=======
+
+Examples of poll
+----------------
+
+.. code-block:: xml
+
+    <poll_question name="second_question" display_name="Second question">
+        <h3>Age</h3>
+        <p>How old are you?</p>
+        <answer id="less18">&lt; 18</answer>
+        <answer id="10_25">from 10 to 25</answer>
+        <answer id="more25">&gt; 25</answer>
+    </poll_question>
+
+Examples of poll with unable reset functionality
+------------------------------------------------
+
+.. code-block:: xml
+
+    <poll_question name="first_question_with_reset" display_name="First question with reset"
+        reset="True">
+        <h3>Your gender</h3>
+        <p>You are man or woman?</p>
+        <answer id="man">Man</answer>
+        <answer id="woman">Woman</answer>
+    </poll_question>
 
 .. _Protein Builder:
 

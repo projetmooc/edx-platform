@@ -9,7 +9,6 @@ Advanced tab when you create a new Problem component. Studio provides
 templates for these problems, but the problems open directly in the
 **Advanced Editor** and have to be created in XML.
 
--  :ref:`Chemical Equation` In chemical equation problems, students enter text that represents a chemical equation into a text box. 
 -  :ref:`Circuit Schematic Builder` In circuit schematic problems, students
    create and modify circuits on an interactive grid and submit
    computer-generated analyses of the circuits for grading.
@@ -32,104 +31,6 @@ templates for these problems, but the problems open directly in the
 These problems are easy to access in Studio. To create them, click
 **Problem** under **Add New Component**, click the **Advanced** tab, and
 then click the name of the problem that you want to create.
-
-To add a label for an advanced problem, you'll add a **label** attribute to one of the XML tags for the problem. For more information, see :ref:`Appendix E`.
-
-.. _Chemical Equation Input:
-
-Chemical Equation
------------------
-
-In chemical equation problems, students enter text that represents a chemical equation into a text box. The LMS converts that text into a chemical equation below the text box.
-
-**Sample Problem**
-
-.. image:: /Images/ChemicalEquationExample.png
- :alt: Image of a chemical equation problem
-
-**Required Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<customresponse>``
-     - Indicates that this problem has a custom response. The ``<customresponse>`` tags must surround the ``<chemicalequation>`` tags.
-   * - ``<chemicalequationinput>``
-     - A child of ``<customresponse>``. Indicates that the answer to this problem is a chemical equation. Must contain the ``size`` and ``label`` attributes.
-   * - ``<answer type=loncapa/python>``
-     - A child of ``<chemicalequationinput>``. Contains the Python script that grades the problem.
-
-Chemical equation problems use MathJax to create formulas. For more information about using MathJax in Studio, see :ref:`MathJax in Studio`.
-
-**Sample Problem XML**:
-
-.. code-block:: xml
-
-  <problem>
-    <startouttext/>
-    <p>Some problems may ask for a particular chemical equation. Practice by writing out the following reaction in the box below.</p>
-    
-  \( \text{H}_2\text{SO}_4 \longrightarrow \text { H}^+ + \text{ HSO}_4^-\)
-
-    <customresponse>
-      <chemicalequationinput size="50" label="Practice by writing out the following reaction in the box below."/>
-      <answer type="loncapa/python">
-
-  if chemcalc.chemical_equations_equal(submission[0], 'H2SO4 -> H^+ + HSO4^-'):
-      correct = ['correct']
-  else:
-      correct = ['incorrect']
-
-      </answer>
-    </customresponse>
-    <p>Some tips:</p>
-    <ul>
-    <li>Use real element symbols.</li>
-    <li>Create subscripts by using plain text.</li>
-    <li>Create superscripts by using a caret (^).</li>
-    <li>Create the reaction arrow (\(\longrightarrow\)) by using "->".</li>
-    </ul>
-
-    <endouttext/>
-  
-   <solution>
-   <div class="detailed-solution">
-   <p>Solution</p>
-   <p>To create this equation, enter the following:</p>
-     <p>H2SO4 -> H^+ + HSO4^-</p>
-   </div>
-   </solution>
-  </problem>
-
-**Problem Template**:
-
-.. code-block:: xml
-
-  <problem>
-    <startouttext/>
-    <p>Problem text</p>
-
-    <customresponse>
-      <chemicalequationinput size="50" label="label text"/>
-      <answer type="loncapa/python">
-
-  if chemcalc.chemical_equations_equal(submission[0], 'TEXT REPRESENTING CHEMICAL EQUATION'):
-      correct = ['correct']
-  else:
-      correct = ['incorrect']
-
-      </answer>
-    </customresponse>
-
-    <endouttext/>
-  
-   <solution>
-   <div class="detailed-solution">
-   <p>Solution or Explanation Header</p>
-   <p>Solution or explanation text</p>
-   </div>
-   </solution>
-  </problem>
 
 
 .. _Circuit Schematic Builder:
@@ -159,27 +60,26 @@ Create a Circuit Schematic Builder Problem
 
 .. code-block:: xml
 
-
-    <problem>
-      <p>Make a voltage divider that splits the provided voltage evenly.</p>
-    <schematicresponse>
-    <center>
-    <schematic height="500" width="600" parts="g,r" analyses="dc"
-    initial_value="[["v",[168,144,0],{"value":"dc(1)","_json_":0},["1","0"]],["r",[296,120,0],{"r":"1","_json_":1},["1","output"]],["L",[296,168,3],{"label":"output","_json_":2},["output"]],["w",[296,216,168,216]],["w",[168,216,168,192]],["w",[168,144,168,120]],["w",[168,120,296,120]],["g",[168,216,0],{"_json_":7},["0"]],["view",-67.49999999999994,-78.49999999999994,1.6000000000000003,"50","10","1G",null,"100","1","1000"]]"
-    />
-    </center>
-    <answer type="loncapa/python">
-    dc_value = "dc analysis not found"
-    for response in submission[0]:
-      if response[0] == 'dc':
-          for node in response[1:]:
-              dc_value = node['output']
-    if dc_value == .5:
-      correct = ['correct']
-    else:
-      correct = ['incorrect']
-    </answer>
-    </schematicresponse>
+ <problem>
+    <p>Make a voltage divider that splits the provided voltage evenly.</p>
+      <schematicresponse>
+      <center>
+      <schematic height="500" width="600" parts="g,r" analyses="dc"
+      initial_value="[["v",[168,144,0],{"value":"dc(1)","_json_":0},["1","0"]],["r",[296,120,0],{"r":"1","_json_":1},["1","output"]],["L",[296,168,3],{"label":"output","_json_":2},["output"]],["w",[296,216,168,216]],["w",[168,216,168,192]],["w",[168,144,168,120]],["w",[168,120,296,120]],["g",[168,216,0],{"_json_":7},["0"]],["view",-67.49999999999994,-78.49999999999994,1.6000000000000003,"50","10","1G",null,"100","1","1000"]]"
+      />
+      </center>
+        <answer type="loncapa/python">
+      dc_value = "dc analysis not found"
+      for response in submission[0]:
+        if response[0] == 'dc':
+            for node in response[1:]:
+                dc_value = node['output']
+      if dc_value == .5:
+        correct = ['correct']
+      else:
+        correct = ['incorrect']
+      </answer>
+      </schematicresponse>
     <schematicresponse>
     <p>Make a high pass filter.</p>
     <center>
@@ -211,15 +111,15 @@ Create a Circuit Schematic Builder Problem
                 <p><img src="/c4x/edX/edX101/asset/images_high_pass_filter.png"/></p>
             </div>
         </solution>
-    </problem>
+ </problem>
 
 .. _Custom JavaScript Display and Grading:
 
 Custom JavaScript Display and Grading
 -------------------------------------
 
-Custom JavaScript display and grading problems (also called custom JavaScript problems
-or JS Input problems) allow you to create a custom problem or tool that uses JavaScript
+Custom JavaScript display and grading problems (also called *custom JavaScript problems*
+or *JS Input problems*) allow you to create a custom problem or tool that uses JavaScript
 and then add the problem or tool directly into Studio. When you create a JS Input problem,
 Studio embeds the problem in an inline frame (IFrame) so that your students can interact with
 it in the LMS. You can grade your students’ work using JavaScript and some basic Python, and
@@ -269,25 +169,12 @@ To re-create the example problem above, you'll need the following files.
    - webGLDemo.css
    - three.min.js
 
-You'll create the first three files using the code in :ref:`Appendix F`. The three.min.js file is a library
-file that you'll download.
+To download these files in a .zip archive, go to http://files.edx.org/JSInput.zip.
 
-#. Go to :ref:`Appendix F` and use the code samples to create the following files.
+..note:: If you need to bypass the SOP, you'll also need the **jschannel.js** file, and your webGLDemo.html file will be slightly different. To download all these files in a .zip archive, go to http://files.edx.org/JSInput_BypassSOP.zip.
 
-   - webGLDemo.html
-   - webGLDemo.js
-   - webGLDemo.css
-
-#. Download the **three.min.js** file. To do this, go to the `three.js home page <http://threejs.org>`_,
-   and then click **Download** in
-   the left pane. After the .zip file has finished downloading, open the .zip file, and then
-   open the **build** folder to access the three.min.js file.
-
-    **Note** If you need to bypass the SOP, you'll also need the **jschannel.js** file. To do
-    this, go to the `jschannel.js <https://github.com/mozilla/jschannel/blob/master/src/jschannel.js>`_
-    page, copy the code for the file into a text editor, and then save the file as jschannel.js.
-
-#. On the **Files & Uploads** page, upload all the files you just created or downloaded.
+#. Download and unpackage the files in either the JSInput.zip file or the JSInput_BypassSOP.zip file.
+#. On the **Files & Uploads** page, upload all the files from the .zip file.
 #. Create a new custom JavaScript display and grading problem component.
 #. On the **Settings** tab, set **Maximum Attempts** to a number larger than
    zero.
@@ -295,9 +182,9 @@ file that you'll download.
 #. Click **Save.**
 
 JavaScript Input Problem Code
-#############################
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-::
+.. code-block:: xml
 
     <problem display_name="webGLDemo">
     In the image below, click the cone.
@@ -336,21 +223,117 @@ JavaScript Input Problem Code
 
 .. note::    When you create this problem, keep the following in mind.
 
-             - The webGLDemo.js file defines the three JavaScript functions (**WebGLDemo.getGrade**, **WebGLDemo.getState**, and **WebGLDemo.setState**).
+ - The webGLDemo.js file defines the three JavaScript functions (**WebGLDemo.getGrade**, **WebGLDemo.getState**, and **WebGLDemo.setState**).
 
-             - The JavaScript input problem code uses **WebGLDemo.getGrade**, **WebGLDemo.getState**, and **WebGLDemo.setState** to grade, save, or restore a problem. These functions must be global in scope.
+ - The JavaScript input problem code uses **WebGLDemo.getGrade**, **WebGLDemo.getState**, and **WebGLDemo.setState** to grade, save, or restore a problem. These functions must be global in scope.
 
-             - **WebGLDemo.getState** and **WebGLDemo.setState** are optional. You only have to define these functions if you want to conserve the state of the problem.
+ - **WebGLDemo.getState** and **WebGLDemo.setState** are optional. You only have to define these functions if you want to conserve the state of the problem.
 
-             - **Width** and **height** represent the dimensions of the IFrame that holds the application.
+ - **Width** and **height** represent the dimensions of the IFrame that holds the application.
 
-             - When the problem opens, the cone and the cube are both blue, or "unselected." When you click either shape once, the shape becomes yellow, or "selected." To unselect the shape, click it again. Continue clicking the shape to select and unselect it.
+ - When the problem opens, the cone and the cube are both blue, or "unselected." When you click either shape once, the shape becomes yellow, or "selected." To unselect the shape, click it again. Continue clicking the shape to select and unselect it.
 
-             - The response is graded as correct if the cone is selected (yellow) when the user clicks **Check**.
+ - The response is graded as correct if the cone is selected (yellow) when the user clicks **Check**.
 
-             - Clicking **Check** or **Save** registers the problem's current state.
+ - Clicking **Check** or **Save** registers the problem's current state.
+
+JavaScript Input XML
+^^^^^^^^^^^^^^^^^^^^
+
+JSInput allows problem authors to turn stand-alone HTML files into problems that can be integrated into the edX platform. Since its aim is flexibility, it can be seen as the input and client-side equivalent of **CustomResponse**.
+
+A JSInput exercise creates an IFrame in a static HTML page, and passes the return value of author-specified functions to the enclosing response type (generally **CustomResponse**). JSInput can also store and retrieve state.
+
+Format
+^^^^^^^
+
+The following is the basic format of a JSInput problem:
+
+.. code-block:: xml
+
+ <problem>
+        <script type="loncapa/python">
+ def all_true(exp, ans): return ans == "hi"
+        </script>
+        <customresponse cfn="all_true">
+            <jsinput gradefn="gradefn" 
+                height="500"
+                get_statefn="getstate"
+                set_statefn="setstate"
+                html_file="/static/jsinput.html"/>
+        </customresponse>
+ </problem>
+
+The accepted attributes are:
+
+==============  ==============  =========  ==========
+Attribute Name   Value Type     Required   Default
+==============  ==============  =========  ==========
+html_file        Url string     Yes        None
+gradefn          Function name  Yes        `gradefn`
+set_statefn      Function name  No         None
+get_statefn      Function name  No         None
+height           Integer        No         `500`
+width            Integer        No         `400`
+==============  ==============  =========  ==========
 
 
+Required Attributes
+^^^^^^^^^^^^^^^^^^^^^
+
+**html_file**
+
+The **html_file** attribute specifies the HTML file that the IFrame will point to. The HTML file
+must be located in the content directory.
+
+The IFrame is created using the sandbox attribute. Although pop-ups, scripts, and pointer locks are allowed, the IFrame cannot access its parent's attributes.
+
+The HTML file must contain a **gradefn** function that the JSInput file can access. To determine whether the **gradefn** function is accessible, in the console, make sure that **gradefn** returns the right thing. When JSInput uses the **gradefn** function, `gradefn` is called with `gradefn`.call(`obj`), where **obj** is the object-part of **gradefn**. For example, if **gradefn** is **myprog.myfn**, JSInput calls **myprog.myfun.call(myprog)**. (This is to ensure "`this`" continues to refer to what `gradefn` expects.)
+
+Aside from that, more or less anything goes. Note that currently there is no support for inheriting CSS or JavaScript from the parent (aside from the Chrome-only **seamless** attribute, which is set to True by default).
+
+**gradefn**
+
+The `gradefn` attribute specifies the name of the function that will be called when a user clicks **Check**, and that returns the student's answer. Unless both the get_statefn and set_statefn attributes are also used, this answer is passed as a string to the enclosing response type. In the customresponse example above, this means cfn will be passed this answer as `ans`.
+
+If the `gradefn` function throws an exception when a student attempts to submit a problem, the submission is aborted, and the student receives a generic alert. The alert can be customised by making the exception name `Waitfor Exception`; in that case, the alert message will be the exception message.
+
+.. important:: To make sure the student's latest answer is passed correctly, make sure that the `gradefn` function is not asynchronous. Moreover, the function should also return promptly, since currently the student has no indication that her answer is being calculated or produced.
+
+Optional Attributes
+^^^^^^^^^^^^^^^^^^^^^
+
+**set_statefn**
+
+Sometimes a problem author will want information about a student's previous answers ("state") to be saved and reloaded. If the attribute `set_statefn` is used, the function given as its value will be passed the state as a string argument whenever there is a state, and the student returns to a problem. The function has the responsibility to then use this state approriately.
+
+The state that is passed is:
+
+* The previous output of `gradefn` (i.e., the previous answer) if `get_statefn` is not defined.
+* The previous output of `get_statefn` (see below) otherwise.
+
+It is the responsibility of the iframe to do proper verification of the argument that it receives via `set_statefn`.
+
+**get_statefn**
+
+Sometimes the state and the answer are quite different. For instance, a problem that involves using a javascript program that allows the student to alter a molecule may grade based on the molecule's hydrophobicity, but from the hydrophobicity it might be incapable of restoring the state. In that case, a
+*separate* state may be stored and loaded by `set_statefn`. Note that if `get_statefn` is defined, the answer (i.e., what is passed to the enclosing response type) will be a json string with the following format:
+
+.. code-block:: xml
+
+    {
+        answer: `[answer string]`
+        state: `[state string]`
+    }
+
+
+The enclosing response type must then parse this as json.
+
+**height** and **width**
+
+The `height` and `width` attributes are straightforward: they specify the height and width of the IFrame. Both are limited by the enclosing DOM elements, so for instance there is an implicit max-width of around 900. 
+
+In the future, JSInput may attempt to make these dimensions match the HTML file's dimensions (up to the aforementioned limits), but currently it defaults to `500` and `400` for `height` and `width`, respectively.
 
 .. _Custom Python Evaluated Input:
 
@@ -377,6 +360,18 @@ To create a write-your-own-grader problem:
 
 For more information about write-your-own-grader problems, see `CustomResponse XML and Python
 Script <https://edx.readthedocs.org/en/latest/course_data_formats/custom_response.html>`_.
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<script type="loncapa/python">``
+     - Indicates that the problem contains a Python script.
+   * - ``<customresponse cfn="test_add_to_ten">``
+     - 
+   * - ``<customresponse cfn="test_add" expect="20">``
+     - 
+   * - <textline size="10" correct_answer="3"/>
+     - This tag includes the ``size``, ``correct_answer``, and ``label`` attributes. The ``correct_answer`` attribute is optional.
 
 **Sample Problem XML**:
 
@@ -479,6 +474,142 @@ The following template does not return answers when the student clicks **Show An
       </solution>
   </problem>
 
+More Information
+~~~~~~~~~~~~~~~~
+
+CustomResponse problems execute Python script to check student answers and provide hints.
+
+There are two general ways to create a CustomResponse problem:
+
+**Answer tag format**
+
+One format puts the Python code in an ``<answer>`` tag:
+
+.. code-block:: xml
+
+    <problem>
+        <p>What is the sum of 2 and 3?</p>
+
+        <customresponse expect="5">
+        <textline math="1" />
+        </customresponse>
+
+        <answer>
+    # Python script goes here
+        </answer>
+    </problem>
+
+
+The Python script interacts with these variables in the global context:
+    * ``answers``: An ordered list of answers the student provided.
+      For example, if the student answered ``6``, then ``answers[0]`` would
+      equal ``6``.
+    * ``expect``: The value of the ``expect`` attribute of ``<customresponse>``
+      (if provided).
+    * ``correct``: An ordered list of strings indicating whether the
+      student answered the question correctly.  Valid values are
+      ``"correct"``, ``"incorrect"``, and ``"unknown"``.  You can set these
+      values in the script.
+    * ``messages``: An ordered list of message strings that will be displayed
+      beneath each input.  You can use this to provide hints to users.
+      For example ``messages[0] = "The capital of California is Sacramento"``
+      would display that message beneath the first input of the response.
+    * ``overall_message``: A string that will be displayed beneath the
+      entire problem.  You can use this to provide a hint that applies
+      to the entire problem rather than a particular input.
+
+Example of a checking script:
+
+.. code-block:: python
+
+    if answers[0] == expect:
+        correct[0] = 'correct'
+        overall_message = 'Good job!'
+    else:
+        correct[0] = 'incorrect'
+        messages[0] = 'This answer is incorrect'
+        overall_message = 'Please try again'
+
+**Important**: Python honors indentation.  Within the ``<answer>`` tag, you must begin your script with no indentation.
+
+**Script tag format**
+
+The other way to create a CustomResponse is to put a "checking function"
+in a ``<script>`` tag, then use the ``cfn`` attribute of the
+``<customresponse>`` tag:
+
+.. code-block:: xml
+
+    <problem>
+        <p>What is the sum of 2 and 3?</p>
+
+        <customresponse cfn="check_func" expect="5">
+        <textline math="1" />
+        </customresponse>
+
+        <script type="loncapa/python">
+    def check_func(expect, ans):
+        # Python script goes here
+        </script>
+    </problem>
+
+
+**Important**: Python honors indentation.  Within the ``<script>`` tag, the ``def check_func(expect, ans):`` line must have no indentation.
+
+The check function accepts two arguments:
+    * ``expect`` is the value of the ``expect`` attribute of ``<customresponse>``
+      (if provided)
+    * ``answer`` is either:
+
+        * The value of the answer the student provided, if there is only one input.
+        * An ordered list of answers the student provided, if there
+          are multiple inputs.
+
+There are several ways that the check function can indicate whether the student
+succeeded.  The check function can return any of the following:
+
+    * ``True``: Indicates that the student answered correctly for all inputs.
+    * ``False``: Indicates that the student answered incorrectly.
+      All inputs will be marked incorrect.
+    * A dictionary of the form: ``{ 'ok': True, 'msg': 'Message' }``
+      If the dictionary's value for ``ok`` is set to ``True``, all inputs are
+      marked correct; if it is set to ``False``, all inputs are marked incorrect.
+      The ``msg`` is displayed beneath all inputs, and it may contain
+      XHTML markup.
+    * A dictionary of the form 
+
+.. code-block:: xml
+      
+    
+    { 'overall_message': 'Overall message',
+        'input_list': [
+            { 'ok': True, 'msg': 'Feedback for input 1'},
+            { 'ok': False, 'msg': 'Feedback for input 2'},
+            ... ] }
+
+The last form is useful for responses that contain multiple inputs.
+It allows you to provide feedback for each input individually,
+as well as a message that applies to the entire response.
+
+Example of a checking function:
+
+.. code-block:: python
+
+    def check_func(expect, answer_given):
+        check1 = (int(answer_given[0]) == 1)
+        check2 = (int(answer_given[1]) == 2)
+        check3 = (int(answer_given[2]) == 3)
+        return {'overall_message': 'Overall message',
+                    'input_list': [
+                        { 'ok': check1, 'msg': 'Feedback 1'},
+                        { 'ok': check2, 'msg': 'Feedback 2'},
+                        { 'ok': check3, 'msg': 'Feedback 3'} ] }
+
+The function checks that the user entered ``1`` for the first input, 
+``2`` for the  second input, and ``3`` for the third input.
+It provides feedback messages for each individual input, as well
+as a message displayed beneath the entire problem.
+
 .. _Drag and Drop:
 
 Drag and Drop
@@ -493,17 +624,72 @@ text or objects to a specific location on an image.
 Create a Drag and Drop Problem
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a drag and drop problem:
+To create a drag and drop problem, you'll need the following files:
 
-#. In the unit where you want to create the problem, click **Problem**
-   under **Add New Component**, and then click the **Advanced** tab.
+* Allopurinol.gif
+* AllopurinolAnswer.gif
+
+To download both these files in a .zip archive, go to http://files.edx.org/DragAndDropProblemFiles.zip.
+
+To create the molecule editor that appears in the image above, you'll upload the files for this problem, and then paste the code below into a Problem component.
+
+#. Upload the Allopurinol.gif and AllopurinolAnswer.gif files to the **Files & Uploads** page.
+#. In the unit where you want to create the problem, click **Problem** under **Add New Component**, and then click the **Advanced** tab.
 #. Click **Drag and Drop**.
 #. In the component that appears, click **Edit**.
-#. In the component editor, replace the example code with your own code.
+#. In the component editor, replace the example code with the following code.
 #. Click **Save**.
 
+**Problem Code**:
 
-For more information about drag and drop problems, see `XML Format of Drag and Drop Input
+.. code-block:: xml
+
+  <problem>
+    <p> Allopurinol is a drug used to treat and prevent gout, a very painful form of arthritis. Once only a “rich man’s disease”, gout has become more and more common in recent decades – affecting about 3 million people in the United States alone. Deposits of needle-like crystals of uric acid in connective tissue or joint spaces cause the symptoms of swelling, stiffness and intense pain. Individuals with gout overproduce uric acid because they cannot eliminate it efficiently. Allopurinol treats and prevents gout by stopping the overproduction of uric acid through inhibition of an enzyme required for the synthesis of uric acid. </p>
+    <p> You are shown one of many possible molecules. On the structure of allopurinol below, identify the functional groups that are present by dragging the functional group name listed onto the appropriate target boxes on the structure. If you want to change an answer, you have to drag off the name as well. You may need to scroll through the names of functional groups to see all options. </p>
+    <customresponse>
+      <drag_and_drop_input no_labels="true" one_per_target="true" target_outline="true" img="/static/Allopurinol.gif">
+        <draggable can_reuse="true" label="methyl" id="1"/>
+        <draggable can_reuse="true" label="hydroxyl" id="2"/>
+        <draggable can_reuse="true" label="amino" id="3"/>
+        <draggable can_reuse="true" label="carboxyl" id="4"/>
+        <draggable can_reuse="true" label="aldehyde" id="5"/>
+        <draggable can_reuse="true" label="phosphate" id="6"/>
+        <draggable can_reuse="true" label="sulfhydryl" id="7"/>
+        <draggable can_reuse="true" label="phenyl" id="8"/>
+        <draggable can_reuse="true" label="none" id="none"/>
+        <target id="0" h="53" w="66" y="55.100006103515625" x="131.5"/>
+        <target id="1" h="113" w="55" y="140.10000610351562" x="181.5"/>
+      </drag_and_drop_input>
+      <answer type="loncapa/python"> correct_answer = [ {'draggables': ['2'], 'targets': ['0' ], 'rule':'unordered_equal' }, {'draggables': ['none'], 'targets': ['1' ], 'rule':'unordered_equal' }] if draganddrop.grade(submission[0], correct_answer): correct = ['correct'] else: correct = ['incorrect'] </answer>
+    </customresponse>
+    <solution>
+      <img src="/static/AllopurinolAnswer.gif"/>
+    </solution>
+  </problem>
+
+
+**Problem Template**
+
+.. code-block:: xml
+
+  <problem>
+    <p>Problem text</p>
+    <customresponse>
+      <drag_and_drop_input no_labels="true" one_per_target="true" target_outline="true" img="/static/TARGET_IMAGE.gif">
+        <draggable can_reuse="true" label="methyl" id="1"/>
+        <draggable can_reuse="true" label="hydroxyl" id="2"/>
+        <target id="0" h="HEIGHT (in pixels)" w="WIDTH (in pixels)" y="Y-COORDINATE" x="X-COORDINATE"/>
+        <target id="1" h="HEIGHT (in pixels)" w="WIDTH (in pixels)" y="Y-COORDINATE" x="X-COORDINATE"/>
+      </drag_and_drop_input>
+      <answer type="loncapa/python"> correct_answer = [ {'draggables': ['2'], 'targets': ['0' ], 'rule':'unordered_equal' }, {'draggables': ['none'], 'targets': ['1' ], 'rule':'unordered_equal' }] if draganddrop.grade(submission[0], correct_answer): correct = ['correct'] else: correct = ['incorrect'] </answer>
+    </customresponse>
+    <solution>
+      <img src="/static/ANSWER_IMAGE.gif"/>
+    </solution>
+  </problem>
+
+For more information about how to create drag and drop problems, see `XML Format of Drag and Drop Input
 <https://edx.readthedocs.org/en/latest/course_data_formats/drag_and_drop/drag_and_drop_input.html>`_.
 
 .. _Image Mapped Input:
@@ -556,6 +742,26 @@ To create a image mapped input problem:
          <imageinput src="IMAGE FILE PATH" width="NUMBER" height="NUMBER" rectangle="(X-AXIS,Y-AXIS)-(X-AXIS,Y-AXIS)" />
         </imageresponse>
   </problem>
+
+**XML Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<imageresponse>``
+     - Indicates that the problem is an image mapped input problem.
+   * - ``<imageinput>``
+     - Specifies the image file and the region the student must click. This tag includes the ``src``, ``width``, ``height``, and ``rectangle`` attributes.
+
+**XML Attribute Information**
+
+<imageresponse>
+
+  .. image:: /Images/imageresponse1.png
+
+<imageinput>
+
+  .. image:: /Images/imageresponse2.png
 
 .. _Math Expression Input:
 
@@ -700,10 +906,97 @@ To create a math expression input problem:
     </solution>
   </problem>
 
+Formula Response (Math Expression Input Problems)
+-------------------------------------------------
+
+.. list-table::
+   :widths: 20 80
+   :header-rows: 1
+
+   * - ``<formularesponse>``
+     - 
+   * - ``<formulaequationinput>``
+     - This tag includes the ``size`` and ``label`` attributes.
+   * - ``<script type="loncapa/python">``
+     - 
 
 
-For more information, see `Symbolic Response
-<https://edx.readthedocs.org/en/latest/course_data_formats/symbolic_response.html>`_.
+**XML Attribute Information**
+
+<script>
+
+
+  .. image:: /Images/formularesponse.png
+
+
+<formularesponse>
+
+
+  .. image:: /Images/formularesponse3.png
+
+Children may include ``<formulaequationinput/>``.
+
+If you do not need to specify any samples, you should look into the use of the
+Numerical Response input type, as it provides all the capabilities of Formula
+Response without the need to specify any unknown variables.
+
+<responseparam>
+
+
+  .. image:: /Images/formularesponse6.png
+
+<formulaequationinput/>
+
+========= ============================================= =====
+Attribute                  Description                  Notes
+========= ============================================= =====
+size      (optional) defines the size (i.e. the width)
+          of the input box displayed to students for
+          typing their math expression.
+========= ============================================= =====
+
+The formula equation input is a math input type used with Numerical and Formula
+responses only. It is not to be used with Symoblic Response. It is comparable
+to a ``<textline math="1"/>`` but with a different means to display the math.
+It lets the platform validate the student's input as she types.
+
+This is achieved by periodically sending the typed expression and requesting
+its preview from the LMS. It parses the expression (using the same parser as
+the parser it uses to eventually evaluate the response for grading), and sends
+back an OK'd copy.
+
+The basic appearance is that of a textbox with a preview box below it. The
+student types in math (see note below for syntax), and a typeset preview
+appears below it. Even complicated math expressions may be entered in.
+
+For more information about the syntax, look in the course author's
+documentation, under Appendix E, the section about Numerical Responses.
+
+**Formats**
+
+The XML is rather simple, it is a ``<formulaequationinput />`` tag with an
+optional ``size`` attribute, which defines the size (i.e. the width) of the
+input box displayed to students for typing their math expression. Unlike
+``<textline />``, there is no ``math`` attribute and adding such will have no
+effect.
+
+To see an example of the input type in context:
+
+.. code-block:: xml
+
+  <problem>
+    <p>What base is the decimal numeral system in?</p>
+    <numericalresponse answer="10">
+      <formulaequationinput />
+    </numericalresponse>
+
+    <p>Write an expression for the product of R_1, R_2, and the inverse of R_3.</p>
+    <formularesponse type="ci" samples="R_1,R_2,R_3@1,2,3:3,4,5#10" answer="R_1*R_2/R_3">
+      <responseparam type="tolerance" default="0.00001"/> 
+      <formulaequationinput size="40" />
+    </formularesponse>
+  </problem>
+
 
 .. _Problem with Adaptive Hint:
 

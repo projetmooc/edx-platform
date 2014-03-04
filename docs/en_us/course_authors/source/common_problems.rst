@@ -98,6 +98,19 @@ following.
 Checkbox Problem XML
 ==========================
 
+**Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<choiceresponse>``
+     - Specifies that the problem lists answer options for students to choose from.
+   * - ``<checkboxgroup>``
+     - A child of ``<choiceresponse>``. Specifies that the problem is a checkbox problem. Can include a ``direction`` attribute and a ``label`` attribute.
+   * - ``<choice>``
+     - A child of ``<checkboxgroup>``. Designates an answer option. Each choice must include the ``correct`` attribute, set to ``true`` (for a correct answer) or ``false`` (for an incorrect answer). For checkbox problems, more than one option can be a correct answer.
+
+
 .. code-block:: xml
 
   <problem>
@@ -284,6 +297,28 @@ Dropdown Problem XML
     </solution>
   </problem>
 
+  **XML Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<optionresponse>``
+     - Indicates that the problem is a dropdown problem.
+   * - ``<optioninput>``
+     - Lists the answer options. This tag includes the ``options``, ``correct``, and ``label`` attributes.
+
+**XML Attribute Information**
+
+<optionresponse>
+
+
+  .. image:: /Images/option_response1.png
+
+
+<optioninput>
+
+  .. image:: /Images/optionresponse2.png
+
 .. _Multiple Choice:
 
 *******************
@@ -400,6 +435,38 @@ following.
   </solution>
   </problem>
 
+
+**XML Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<multiplechoiceresponse>``
+     - Indicates that the problem is a multiple choice problem.
+   * - ``<choicegroup type="MultipleChoice">``
+     - Indicates the beginning of the list of options. Contains the ``label`` attribute.
+   * - ``<choice>``
+     - Lists an option. This tag includes the ``correct`` and ``name`` attributes.
+
+
+
+
+**XML Attribute Information**
+
+
+<multiplechoiceresponse>
+
+.. image:: /Images/multipleresponse.png
+
+
+<choicegroup>
+
+  .. image:: /Images/multipleresponse2.png
+
+
+<choice>
+
+  .. image:: /Images/multipleresponse3.png
 
 .. _Numerical Input:
 
@@ -722,6 +789,63 @@ Answers with scripts
   </solution>
   </problem>
 
+**XML Attribute Information**
+
+<script>
+
+  .. image:: /Images/numericalresponse.png
+
+
+``<numericalresponse>``
+
++------------+----------------------------------------------+-------------------------------+
+| Attribute  |                 Description                  |              Notes            |
++============+==============================================+===============================+
+| ``answer`` | A value to which student input must be       | Note that any numeric         |
+|            | equivalent. Note that this expression can be | expression provided by the    |
+|            | expressed in terms of a variable that is     | student will be automatically |
+|            | computed in a script provided in the problem | simplified on the grader's    |
+|            | by preceding the appropriate variable name   | backend.                      |
+|            | with a dollar sign.                          |                               |
+|            |                                              |                               |
+|            | This answer will be evaluated similar to a   |                               |
+|            | student's input. Thus '1/3' and 'sin(pi/5)'  |                               |
+|            | are valid, as well as simpler expressions,   |                               |
+|            | such as '0.3' and '42'                       |                               |
++------------+----------------------------------------------+-------------------------------+
+
+
++------------------------+--------------------------------------------+--------------------------------------+
+|       Children         |                 Description                |                 Notes                |
++========================+============================================+======================================+
+| ``responseparam``      | used to specify a tolerance on the accepted|                                      |
+|                        | values of a number. See description below. |                                      |
++------------------------+--------------------------------------------+--------------------------------------+
+|``formulaequationinput``| An input specifically for taking math      |                                      |
+|                        | input from students. See below.            |                                      |
++------------------------+--------------------------------------------+--------------------------------------+
+| ``textline``           | A format to take input from students, see  | Deprecated for NumericalResponse.    |
+|                        | description below.                         | Use ``formulaequationinput`` instead.|
++------------------------+--------------------------------------------+--------------------------------------+
+
+
+<responseparam>
+
+  .. image:: /Images/numericalresponse4.png
+
+<formulaequationinput/>
+
+========= ============================================= =====
+Attribute                  Description                  Notes
+========= ============================================= =====
+size      (optional) defines the size (i.e. the width)
+          of the input box displayed to students for
+          typing their math expression.
+========= ============================================= =====
+
+<textline> (While <textline /> is supported, its use is extremely discouraged.
+We urge usage of <formulaequationinput />. See the opening paragraphs of the
+Numerical Response section for more information.)
 
 .. _Text input:
 
@@ -867,7 +991,7 @@ You can add ``regexp`` to the value of the ``type`` attribute, for example: ``ty
 
 **Sample Problem**
 
-.. image:: ../Images/TextInputExample.gif
+.. image:: /Images/TextInputExample.gif
  :alt: Image of a string response problem
 
 **XML Tags**
@@ -960,3 +1084,84 @@ You can add ``regexp`` to the value of the ``type`` attribute, for example: ``ty
       </div>
     </solution>
   </problem>
+
+**XML Tags**
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<stringresponse>``
+     - Indicates that the problem is a text input problem. 
+   * - ``<textline>``
+     - Child of ``<stringresponse>``. Lists the answer options and contains the ``label`` attribute.
+   * - ``<additional_answer>`` (optional)
+     - Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers.
+   * - ``<hintgroup>`` (optional)
+     - Indicates that the instructor has provided hints for certain common incorrect answers.
+   * - ``<stringhint />`` (optional)
+     - Child of ``<hintgroup>``. Specifies the text of the incorrect answer to provide the hint for. Contains answer, type, name.
+   * - ``<hintpart>``
+     - Contains the name from ``<stringhint>``. Associates the incorrect answer with the hint text for that incorrect answer.
+   * - ``<startouttext />``
+     - Indicates the beginning of the text of the hint.
+   * - ``<endouttext />``
+     - Indicates the end of the text of the hint.
+
+**XML Attribute Information**
+
+<stringresponse>
+
+ .. raw:: html
+
+      <table border="1" class="docutils" width="60%">
+        <colgroup>
+        <col width="15%">
+        <col width="75%">
+        <col width="10%">
+        </colgroup>
+        <thead valign="bottom">
+        <tr class="row-odd"><th class="head">Attribute</th>
+        <th class="head">Description</th>
+        <th class="head">Notes</th>
+        </tr>
+        </thead>
+        <tbody valign="top">
+        <tr class="row-even"><td>type</td>
+        <td>(optional) “[ci] [regex]”. Add “ci” if the student response should be graded case-insensitively. The default is to take case into consideration when grading. Add “regexp” for correct answer to be treated as regular expression.</td>
+        <td>&nbsp;</td>
+        </tr>
+        <tr class="row-odd"><td>answer</td>
+        <td>The string that is used to compare with student answer. If "regexp" is not presented in value of <em>type</em> attribute, student should enter value equal to exact value of this attribute in order to get credit. If  "regexp" is presented in value of <em>type</em> attribute, value of <em>answer</em> is treated as regular expression and exact match of this expression and student answer will be done. If search is successful, student will get credit.</td>
+        <td>&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <table border="1" class="docutils" width="60%">
+        <colgroup>
+        <col width="15%">
+        <col width="75%">
+        <col width="10%">
+        </colgroup>
+        <thead valign="bottom">
+        <tr class="row-odd"><th class="head">Children</th>
+        <th class="head">Description</th>
+        <th class="head">Notes</th>
+        </tr>
+        </thead>
+        <tbody valign="top">
+        <tr class="row-even"><td>textline</td>
+        <td>used to accept student input. See description below.</td>
+        <td>&nbsp;</td>
+        </tr>
+        <tr class="row-odd"><td>additional_answer</td>
+        <td>todo</td>
+        <td>&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+
+
+<textline>
+
+  .. image:: /Images/stringresponse2.png

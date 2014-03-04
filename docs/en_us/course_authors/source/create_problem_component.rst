@@ -428,10 +428,6 @@ Note that *problem randomization* is different from the **Randomization** settin
 
 .. note:: Creating problems with versions that can be randomized requires you to export your course, edit some of your course's XML files in a text editor, and then re-import your course. We recommend that you create a backup copy of your course before you do this. We also recommend that you only edit the files that will contain polls in the text editor if you're very familiar with editing XML.
 
-==========================
-Terminology
-==========================
-
 ===========
 Terminology
 ===========
@@ -561,3 +557,30 @@ students to go back and resubmit a problem.
 -  Delete the entire Problem component in Studio and create a new
    Problem component with the content and settings that you want. Then
    ask all your students to complete the new problem.
+
+.. _Problem XML:
+
+***********
+Problem XML
+***********
+
+Most problems have the following tags.
+
+.. list-table::
+   :widths: 20 80
+
+   * - ``<problem> </problem>``
+     - These must be the first and last tags for any content created in the Advanced
+       Editor in a Problem component.
+   * - ``<startouttext/>``
+     - The ``<startouttext />`` tag indicates the beginning of a line or block of text.
+   * - ``<endouttext/>``
+     - The ``<endouttext />`` tag indicates the end of a line or block of text.
+   * - ``<solution> <div class="detailed-solution"> </div> </solution>`` (optional)
+     - If you want to include more information in the problem, such as a detailed explanation of the problem's answer, you'll enter the text between the two ``<div>`` tags, which are inside the ``<solution>`` tags. (These tags do not have to be on the same line.)
+
+Additionally, all problems must include a **label** attribute. This attribute adds a descriptive label that helps visually impaired students navigate through the problem.
+You'll add a **label** attribute to one of the XML tags for the problem. Each example problem below includes a label.
+
+textline
+customresponse
