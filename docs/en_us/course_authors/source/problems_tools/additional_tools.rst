@@ -38,7 +38,7 @@ Specifically, the Gene Explorer does the following:
 #. Finds the start codon
 #. Translates the mRNA
 
-.. image:: /Images/GeneExplorer.png
+.. image:: ../Images/GeneExplorer.png
   :alt: Image of the Gene Explorer
 
 For more information about the Gene Explorer, see `The Gene Explorer <http://intro.bio.umb.edu/GX/>`_.
@@ -80,7 +80,7 @@ Chemical Equation Problem
 
 The chemical equation problem type allows the student to enter chemical equations. The grader evaluates student responses by using a Python script that you create and embed in the problem.
 
-.. image:: /Images/ChemicalEquationExample.png
+.. image:: ../Images/ChemicalEquationExample.png
  :alt: Image of a chemical equation response problem
 
 ====================================
@@ -150,7 +150,7 @@ Interactive Periodic Table
 
 You can create an interactive periodic table of the elements to help your students learn about various elements' properties. In the table below, detailed information about each element appears as the student moves the mouse over the element.
 
-.. image:: /Images/Periodic_Table.gif
+.. image:: ../Images/Periodic_Table.gif
   :alt: Image of the interactive periodic table
 
 .. _Create the Periodic Table:
@@ -188,7 +188,7 @@ Students can use the molecule editor to learn how to create molecules. The molec
 
 The molecule editor incorporates two tools: the JSME molecule editor created by Peter Erl and Bruno Bienfait, and JSmol, a JavaScript-based molecular viewer from Jmol. (You don't need to download either of these tools--Studio uses them automatically.) For more information about the JSME molecule editor, see `JSME Molecule Editor <http://peter-ertl.com/jsme/index.html>`_. For more information about JSmol, see `JSmol <http://sourceforge.net/projects/jsmol/>`_.
 
-.. image:: /Images/Molecule_Editor.gif
+.. image:: ../Images/Molecule_Editor.gif
   :alt: Image of the molecule editor
 
 .. _Create the Molecule Editor:
@@ -350,7 +350,7 @@ Multiple Choice and Numerical Input Problem
 
 You can create a problem that combines a multiple choice and numerical input problems. Students not only select a response from options that you provide, but also provide more specific information, if necessary.
 
-.. image:: /Images/MultipleChoice_NumericalInput.gif
+.. image:: ../Images/MultipleChoice_NumericalInput.gif
   :alt: Image of a multiple choice and numerical input problem
 
 .. note:: Currently, students can only enter numerals in the text field. Students cannot enter words or mathematical expressions.
@@ -396,7 +396,7 @@ Polls
 
 You can run polls in your course so that your students can share opinions on different questions.
 
-.. image:: /Images/PollExample.png
+.. image:: ../Images/PollExample.png
 
 .. note:: Creating a poll requires you to export your course, edit some of your course's XML files in a text editor, and then re-import your course. We recommend that you create a backup copy of your course before you create the poll. We also recommend that you only edit the files that will contain polls in the text editor if you're very familiar with editing XML. 
 
@@ -504,7 +504,7 @@ Protex Protein Builder
 The Protex protein builder asks students to create specified protein shapes by stringing together amino acids. In the example below, the goal protein shape is a simple line. 
 
 
-.. image:: /Images/ProteinBuilder.gif
+.. image:: ../Images/ProteinBuilder.gif
   :alt: Image of the protein builder
 
 .. _Create the Protein Builder:

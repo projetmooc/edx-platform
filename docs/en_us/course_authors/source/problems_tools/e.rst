@@ -3,7 +3,7 @@
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-APPENDIX E: Problem and Tool XML
+Problem and Tool XML
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This appendix provides information about the XML for most problem and tool types in Studio:

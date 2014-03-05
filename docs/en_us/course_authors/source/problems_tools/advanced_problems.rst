@@ -44,7 +44,7 @@ In chemical equation problems, students enter text that represents a chemical eq
 
 **Sample Problem**
 
-.. image:: /Images/ChemicalEquationExample.png
+.. image:: ../Images/ChemicalEquationExample.png
  :alt: Image of a chemical equation problem
 
 **Required Tags**
@@ -142,7 +142,7 @@ elements such as voltage sources, capacitors, resistors, and MOSFETs on
 an interactive grid. They then submit a DC, AC, or transient analysis of
 their circuit to the system for grading.
 
-.. image:: /Images/CircuitSchematicExample.gif
+.. image:: ../Images/CircuitSchematicExample.gif
  :alt: Image of a circuit schematic builder
 
 Create a Circuit Schematic Builder Problem
@@ -229,7 +229,7 @@ The JS Input problem that you create must use HTML, JavaScript, and cascading st
 (CSS). You can use any application creation tool, such as the Google Web Toolkit (GWT), to
 create your JS Input problem.
 
-.. image:: /Images/JavaScriptInputExample.gif
+.. image:: ../Images/JavaScriptInputExample.gif
  :alt: Image of a JavaScript Input problem
 
 Create a Custom JavaScript Display and Grading Problem
