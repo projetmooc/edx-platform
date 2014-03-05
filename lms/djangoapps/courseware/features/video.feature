@@ -203,3 +203,15 @@ Feature: LMS Video component
     And I reload the page
     Then I see "Hi, welcome to Edx." text in the captions
     And I see duration "1:00"
+
+  # 21
+  Scenario: Download button works correctly w/o english transcript in Youtube mode of Video component
+    Given I am registered for the course "test_course"
+    And I have a "chinese_transcripts.srt" transcript file in assets
+    And it has a video in "Youtube" mode:
+      | transcripts           | sub         | download_track |
+      | {"zh": "OEoXaMPEzfM"} | OEoXaMPEzfM | true           |
+    And I select language with code "zh"
+    And I see "好 各位同学" text in the captions
+    Then I can download transcript in "srt" format
+

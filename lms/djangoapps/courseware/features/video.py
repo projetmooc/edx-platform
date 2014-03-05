@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 #pylint: disable=C0111
 
-import os
-import requests
-from functools import partial
 from lettuce import world, step
-from nose.tools import assert_equal
-from splinter.request_handler.request_handler import RequestHandler
-import json
 import os
-import requests
+import json
 import time
+import requests
 from common import i_am_registered_for_the_course, section_location, visit_scenario_item
 from django.utils.translation import ugettext as _
 from django.conf import settings
@@ -481,12 +476,3 @@ def select_transcript_format(_step, format):
 
     assert world.css_find(menu_selector + ' .active a')[0]['data-value'] == format
     assert button.text.strip() == '.' + format
-
-
-@step('transcript is downloadable$')
-def transcript_is_downloaded(_step):
-    world.wait_for_ajax_complete()
-    download_button_url = world.css_find('.video-tracks a').first['href']
-    session_id_cookie = ({i['name']:i['value']} for i in  world.browser.cookies.all() if i['name']==u'sessionid').next()
-    result = requests.get(download_button_url, cookies=session_id_cookie)
-    assert_equal(result.status_code, 200)
