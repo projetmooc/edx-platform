@@ -119,7 +119,7 @@ def add_video_to_course(course, player_mode, hashes, display_name='Video'):
         })
     if player_mode == 'youtube_html5':
         kwargs['metadata'].update({
-            'html5_sources': HTML5_SOURCES
+            'html5_sources': HTML5_SOURCES,
         })
     if player_mode == 'youtube_html5_unsupported_video':
         kwargs['metadata'].update({
@@ -166,7 +166,6 @@ def _change_video_speed(speed):
     world.browser.execute_script("$('.speeds').addClass('open')")
     speed_css = 'li[data-speed="{0}"] a'.format(speed)
     world.css_click(speed_css)
-
 
 def _open_menu(menu):
     world.browser.execute_script("$('{selector}').parent().addClass('open')".format(
@@ -373,7 +372,6 @@ def select_language(_step, code):
 @step('I click video button "([^"]*)"$')
 def click_button(_step, button):
     world.css_click(VIDEO_BUTTONS[button])
-
 
 @step('I see video starts playing from "([^"]*)" position$')
 def start_playing_video_from_n_seconds(_step, position):
