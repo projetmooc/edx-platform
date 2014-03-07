@@ -322,15 +322,14 @@ class VideoModule(VideoFields, XModule):
                 raise ValueError
             data = asset(self.location, sub_id, lang).data
             srt_subs = generate_srt_from_sjson(json.loads(data), speed=1.0)
-            sub_filename = sub_id
         else:
             srt_subs = asset(self.location, None, None, self.transcripts[lang]).data
-            sub_filename = os.path.splitext(self.transcripts[lang])[0]
+            sub_id = os.path.splitext(self.transcripts[lang])[0]
         if not srt_subs:
             log.debug('generate_srt_from_sjson produces no subtitles')
             raise ValueError
 
-        return srt_subs, sub_filename
+        return srt_subs, sub_id
 
     @XBlock.handler
     def transcript(self, request, dispatch):
