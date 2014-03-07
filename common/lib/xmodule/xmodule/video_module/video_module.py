@@ -345,14 +345,25 @@ class VideoModule(VideoFields, XModule):
         Request GET should contains: 2-char language code for `download`
         and additionally `videoId` for `translation`.
 
-        HTTP methods:
-            `delete`:  clear field, but not remove loaded transcript asset.
-            `post`: upload srt file. Think about generation of proper sjson files. Renames srt file.
-            `get`:
-                Dispatches:
-                    `download`: returns SRT file.
-                    `translation`: returns jsoned translation text.
-                    `available_translations`: returns list of languages, for which SRT files exist. For 'en' check if SJSON exists.
+        Dispatches:
+        `download`: returns SRT file.
+        `translation`: returns jsoned translation text.
+            HTTP methods:
+                `delete`:  clear field, but not remove loaded transcript asset.
+                `post`: upload srt file. Think about generation of proper sjson files. Renames srt file.
+                `get`:
+
+        `available_translations`: returns list of languages, for which SRT files exist. For 'en' check if SJSON exists.
+
+
+        TODO:
+            write unit and acceptance tests
+
+        1) list of acceptance tests to do:
+            - delete one field
+            - delete all fields at once
+            - upload two fiels consequently
+            - donwload file
 
         """
 
@@ -381,6 +392,7 @@ class VideoModule(VideoFields, XModule):
 
             elif request.method == 'GET':
 
+                # dispatch.split('/').pop() REST? @TODO
                 lang = request.GET.get('language') or dispatch.split('/').pop()
 
                 if not lang:
@@ -393,42 +405,15 @@ class VideoModule(VideoFields, XModule):
                 if lang != self.transcript_language:
                     self.transcript_language = lang
 
-                # Download subtitle
-                if 'videoId' not in request.GET:
-
-                    if lang == 'en':
-                        videoId = self.sub
-                    else :
-                        videoId = self.transcripts.get(lang)
-
-                    try:
-                        subtitle = self.get_transcript()
-                        filename = self.transcripts[self.transcript_language]
-                    except (NotFoundError, ValueError, KeyError):
-                        log.debug("Video@download exception")
-                        return Response(status=404)
-                    else:
-                        response = Response(
-                            subtitle,
-                            headerlist=[
-                                ('Content-Disposition', 'attachment; filename="{}"'.format(filename)),
-                            ]
-                        )
-                        response.content_type = "application/x-subrip"
-                        return response
-
-                else:
-                     videoId = request.GET.get('videoId')
-
                 try:
-                    transcript = self.translation(videoId)
-                except TranscriptException as ex:
+                    transcript = self.translation(request.GET.get('videoId', None))
+                except (TranscriptException, NotFoundError) as ex:
                     log.info(ex.message)
-                    return Response(status=404)
+                    response = Response(status=404)
                 else:
                     response = Response(transcript)
                     response.content_type = 'application/json'
-        '''
+
         elif dispatch == 'download':
             try:
                 subs, sub_filename = self.get_transcript()
