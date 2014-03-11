@@ -55,7 +55,7 @@ class ReuqestHandlerWithSessionId(object):
         """
         kwargs = dict()
 
-        session_id = [{i['name']:i['value']} for i in  world.browser.cookies.all() if i['name']==u'sessionid']
+        session_id = [{i['name']:i['value']} for i in world.browser.cookies.all() if i['name'] == u'sessionid']
         if session_id:
             kwargs.update({
                 'cookies': session_id[0]
