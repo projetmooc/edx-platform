@@ -432,7 +432,7 @@ def video_alignment(_step, transcript_visibility):
 
     assert all([width, height])
 
-@step('I can download transcript in "([^"]*)" format with text "([^"]*)"$')
+@step('I can download transcript in "([^"]*)" format and has text "([^"]*)"$')
 def i_can_download_transcript(_step, format, text):
     button = world.css_find('.video-tracks .a11y-menu-button').first
     assert button.text.strip() == '.' + format
@@ -466,4 +466,3 @@ def select_transcript_format(_step, format):
 
     assert world.css_find(menu_selector + ' .active a')[0]['data-value'] == format
     assert button.text.strip() == '.' + format
-
