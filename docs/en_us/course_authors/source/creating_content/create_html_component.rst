@@ -31,14 +31,14 @@ The HTML Component User Interface
 
 When you create a new HTML component, you work with the HTML component editor. The editor has two views: **Visual view** and **HTML view.** To switch between Visual view and HTML view, click the tab in the upper-right corner of the component editor.
 
-.. image:: ../Images/HTMLEditorTabs.gif
+.. image:: ../Images/HTMLEditorTabs.png
  :alt: Image of the HTML component editor, with the Visual and HTML tabs circled
 
 - **Visual view** provides a “what you see is what you get” (WYSIWYG) editor that allows you to format text by clicking the formatting buttons at the top of the editor. By default, every HTML component opens in Visual view.
 
   Visual view includes the following formatting buttons.
 
-  .. image:: ../Images/HTML_VisualView_Toolbar.gif
+  .. image:: ../Images/HTML_VisualView_Toolbar.png
     :alt: Image of the HTML visual editor, with callouts for formatting buttons
 
   #. Select a formatting style, such as heading 1, heading 2, or paragraph.
@@ -56,12 +56,12 @@ When you create a new HTML component, you work with the HTML component editor. T
 
   Visual view shows your content the way it will appear in the LMS. The following is the LMS rendition of the HTML component above.
 
-  .. image:: ../Images/HTMLComponent_VisualView_LMS.gif
+  .. image:: ../Images/HTMLComponent_VisualView_LMS.png
    :alt: Image of the visual view of the HTML component
 
 - **HTML view** allows you to edit HTML code directly.
 
-  .. image:: ../Images/HTML_HTMLView.gif
+  .. image:: ../Images/HTML_HTMLView.png
    :alt: Image of the HTML code view of the HTML component
 
   .. note:: If you're in HTML view, you can always switch to Visual view to make sure your content looks the way you expect. For example, we recommend that you do this if you add an image or a link to an HTML component.
@@ -76,7 +76,7 @@ To create an HTML component:
 
 1. Under **Add New Component**, click **html**.
 
-  .. image:: ../Images/NewComponent_HTML.gif
+  .. image:: ../Images/NewComponent_HTML.png
    :alt: Image of adding a new HTML component
 
 2. In the list that appears, click **Text**.
@@ -92,7 +92,7 @@ To create an HTML component:
 
    The HTML component editor opens in Visual view.
 
-  .. image:: ../Images/HTMLEditor.gif
+  .. image:: ../Images/HTMLEditor.png
    :alt: Image of the HTML component Visual view
 
 4. Enter the text and formatting that you want, either by using the formatting buttons in Visual view or by manually adding HTML tags in HTML view.
@@ -117,7 +117,7 @@ Add a Link in an HTML Component
 
 To add a link to a website, course unit, or file in an HTML component, you'll work with the **Insert/Edit Link** dialog box.
 
-.. image:: ../Images/HTML_Insert-EditLink_DBox.gif
+.. image:: ../Images/HTML_Insert-EditLink_DBox.png
  :alt: Image of the Insert/Edit Link dialog box
 
 For more information, see:
@@ -140,7 +140,7 @@ To add a link to a website:
 
 #. In the **Insert/Edit Link** dialog box, enter the URL of the website that you want in the **Link URL** field.
 
-   .. image:: ../Images/HTML_Insert-EditLink_Website.gif
+   .. image:: ../Images/HTML_Insert-EditLink_Website.png
     :alt: Image of the Insert/Edit Link dialog box
 
 #. If you want the link to open in a new window, click the drop-down arrow next to the **Target** field, and then select **Open Link in a New Window**. If not, you can leave the default value.
@@ -176,7 +176,7 @@ You can add a link to a course unit in an HTML component.
    Make sure to replace <unit identifier> (including the brackets) with the unit
    identifier that you copied in step 2, and make sure to include both forward slashes (/).
 
-   .. image:: ../Images/HTML_Insert-EditLink_CourseUnit.gif
+   .. image:: ../Images/HTML_Insert-EditLink_CourseUnit.png
     :alt: Image of the Inser/Edit Link dialog box with a link to a unit identifier
 
 #. If you want the link to open in a new window, click the drop-down arrow next to
@@ -196,7 +196,7 @@ You can add a link in an HTML component to any file you've uploaded for the cour
 
 #. On the **Files & Uploads** page, copy the URL of the file.
 
-   .. image:: ../Images/HTML_Link_File.gif
+   .. image:: ../Images/HTML_Link_File.png
     :alt: Image of Files and Uploads page with the URL field circled
 
 #. Select the text that you want to make into the link.
@@ -209,7 +209,7 @@ You can add a link in an HTML component to any file you've uploaded for the cour
 
    Make sure to include both forward slashes (/).
 
-   .. image:: ../Images/HTML_Insert-EditLink_File.gif
+   .. image:: ../Images/HTML_Insert-EditLink_File.png
     :alt: Image of the Inser/Edit Link dialog box with a link to a file
 
 #. If you want the link to open in a new window, click the drop-down arrow next to
@@ -242,7 +242,7 @@ To add an image, you'll need the URL of the image that you uploaded to the cours
 
    For example, your image tag may resemble the following.
 
-   ``<p><img src="/static/GreatLakes.gif" alt="Map of the Great Lakes" /></p>``
+   ``<p><img src="/static/GreatLakes.png" alt="Map of the Great Lakes" /></p>``
 
 #. Switch back to Visual view to make sure your image appears.
 
@@ -254,7 +254,7 @@ Import LaTeX Code into an HTML Component
 
 You can import LaTeX code into an HTML component. You might do this, for example, if you want to create "beautiful math" such as the following.
 
-.. image:: ../Images/HTML_LaTeX_LMS.gif
+.. image:: ../Images/HTML_LaTeX_LMS.png
  :alt: Image of math formulas created with LaTeX
 
 .. warning:: The LaTeX processor that Studio uses to convert LaTeX code to XML is a third-party tool. We recommend that you use this feature with caution. If you do use it, make sure to work with your PM.
@@ -279,7 +279,7 @@ To create an HTML component that contains LaTeX code:
 
 4. In the componenent editor, click **Launch Latex Source Compiler**. The Latex editor opens.
 
-   .. image:: ../Images/HTML_LaTeXEditor.gif
+   .. image:: ../Images/HTML_LaTeXEditor.png
     :alt: Image of the HTML component editor with the Latex compiler.
 
 #. Write Latex code as needed. You can also upload a Latex file into the editor from your computer by clicking **Upload** in the bottom right corner.

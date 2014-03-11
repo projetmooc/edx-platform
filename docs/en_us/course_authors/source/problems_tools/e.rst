@@ -53,7 +53,7 @@ Although you can create checkbox problems by using the Simple Editor in Studio, 
 
 **Sample Problem**
 
-.. image:: ../Images/CheckboxExample.gif
+.. image:: ../Images/CheckboxExample.png
  :alt: Image of a checkbox problem
 
 **Tags**
@@ -359,7 +359,7 @@ Formula Response (Math Expression Input Problems)
 
 **Sample Problem**
 
-.. image:: ../Images/MathExpressionInputExample.gif
+.. image:: ../Images/MathExpressionInputExample.png
  :alt: Image of a math expression input problem
 
 .. list-table::
@@ -539,7 +539,7 @@ Although you can create multiple choice problems by using the Simple Editor in S
 
 **Sample Problem**
 
-.. image:: ../Images/MultipleChoiceExample.gif
+.. image:: ../Images/MultipleChoiceExample.png
  :alt: Image of a multiple choice problem
 
 **XML Tags**
@@ -922,7 +922,7 @@ Although you can create dropdown problems by using the Simple Editor in Studio, 
 
 **Sample Problem**
 
-.. image:: ../Images/DropdownExample.gif
+.. image:: ../Images/DropdownExample.png
     :alt: Image of an option response problem
 
 **XML Tags**
@@ -1020,7 +1020,7 @@ student can construct a schematic answer, such as a circuit.
 
 **Sample Problem**
 
-.. image:: ../Images/CircuitSchematicExample.gif
+.. image:: ../Images/CircuitSchematicExample.png
  :alt: Image of a schematic response explanation
 
 **Problem Code**:
@@ -1094,7 +1094,7 @@ You can add ``regexp`` to the value of the ``type`` attribute, for example: ``ty
 
 **Sample Problem**
 
-.. image:: ../Images/TextInputExample.gif
+.. image:: ../Images/TextInputExample.png
  :alt: Image of a string response problem
 
 **XML Tags**

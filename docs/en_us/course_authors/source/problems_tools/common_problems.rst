@@ -535,17 +535,17 @@ Create a Numerical Input Problem in the Simple Editor
 #. Under **Add New Component**, click **Problem**.
 #. In the **Select Problem Component Type** screen, click **Numerical
    Input** on the **Common Problem Types** tab.
-#. When the new Problem component appears, click **Edit**.
+3. When the new Problem component appears, click **Edit**.
 #. In the component editor, replace the sample problem text with your own text.
 #. Determine the text of the problem to use as a label, and then surround that text with two sets of angle brackets (>><<).
 #. Select the text of the answer, and then click the numerical input button. 
 
-   .. image:: ../Images//ProbCompButton_NumInput.gif
+.. image:: ../Images//ProbCompButton_NumInput.gif
     :alt: Image of the numerical input button
    
-   When you do this, an equal sign appears next to the answer.
+When you do this, an equal sign appears next to the answer.
         
-#. (Optional) Specify a margin of error, or tolerance. You can specify a percentage, number, or range.
+7. (Optional) Specify a margin of error, or tolerance. You can specify a percentage, number, or range.
 
    * To specify a percentage on either side of the correct answer, add **+-NUMBER%** after the answer. For example, if you want to include a 2% tolerance, add **+-2%**. 
 
@@ -553,13 +553,13 @@ Create a Numerical Input Problem in the Simple Editor
 
    * To specify a range, use brackets [] or parentheses (). A bracket indicates that range includes the number next to it. A parenthesis indicates that the range does not include the number next to it. For example, if you specify **[5, 8)**, correct answers can be 5, 6, and 7, but not 8. Likewise, if you specify **(5, 8]**, correct answers can be 6, 7, and 8, but not 5.
 
-#. In the component editor, select the text of the explanation, and then click the 
+8. In the component editor, select the text of the explanation, and then click the 
    explanation button to add explanation tags around the text.
 
    .. image:: ../Images//ProbCompButton_Explanation.gif
     :alt: Image of athe explanation button
 
-#. On the **Settings** tab, specify the settings that you want. 
+9. On the **Settings** tab, specify the settings that you want. 
 #. Click **Save**.
 
 For the first example problem above, the text in the Problem component is the

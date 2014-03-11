@@ -189,7 +189,7 @@ If you do not change the default course start date (01/01/2030), and the adverti
  :alt: Image of a course listing in the student dashboard, with no start date.
 
 
-.. _`Describe Your Course`:
+.. _Describe Your Course:
 
 ************************
 Describe Your Course
@@ -213,7 +213,7 @@ On Edge, there is no course catalog and users will not find your course descript
  
 4. Click **your course summary page** in the text beneath the field to test how the description will appear to students.
 
-.. _`Add a Course Image`:
+.. _Add a Course Image:
 
 ************************
 Add a Course Image
@@ -228,7 +228,7 @@ The course image should be a minimum of 660 pixels in width by 240 pixels in hei
 #. To select an image from your computer, click **Upload Course Image**, then follow the prompts to find and upload your image.
 #. View your course summary page to test how the image will appear to students.
 
-.. _`Add a Course Video`:
+.. _Add a Course Video:
 
 *********************************
 Add a Course Introduction Video
@@ -259,7 +259,7 @@ To add a course introduction video:
 #. In the field below the video box, enter the YouTube video ID. When you add the code, the video automatically loads in the video box. Studio automatically saves your changes.
 #. View your course summary page to test how the video will appear to students.
 
-.. _`Set Course Requirements`:
+.. _Set Course Requirements:
 
 ************************
 Set Course Requirements
@@ -271,7 +271,7 @@ The estimated Effort per Week appears on the Course Summary page that students s
 #. In the **Hours of Effort per Week** field, enter the number of hours you expect students to work on this course each week.
 #. View your course summary page to test how the video will appear to students.
 
-.. _`Add Files to a Course`:
+.. _Add Files to a Course:
 
 **********************
 Add Files to a Course
@@ -355,7 +355,7 @@ To delete a file, click the **x** icon next to the file.  You are prompted to co
 
 .. warning:: If you have links to a file you delete, those links will be broken. Ensure you change those links before deleting the file.
  
-.. _`Add Static Pages`:
+.. _Add Static Pages:
 
 ****************
 Add Static Pages
@@ -398,7 +398,7 @@ You can embed a Google calendar. Paste the embed code for the calendar in the st
 
 You can also create a dynamic HTML calendar. See :ref:`Appendix B`. 
 
-.. _`Add a Course Update`:
+.. _Add a Course Update:
 
 **********************
 Add a Course Update
@@ -421,7 +421,7 @@ To add a course update:
 
 4. Click **Save**.
 
-.. _`Add Course Handouts`:
+.. _Add Course Handouts:
 
 **********************
 Add Course Handouts
@@ -435,7 +435,7 @@ You can add course handouts that are visible to students on the **Course Info** 
 #. Edit the HTML to add links to the files you uploaded. See :ref:`Add a Link in an HTML Component` for more information.
 #. Click **Save**.
 
-.. _`Add Textbooks`:
+.. _Add Textbooks:
 
 ****************
 Add Textbooks

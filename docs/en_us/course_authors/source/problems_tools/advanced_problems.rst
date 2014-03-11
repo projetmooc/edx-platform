@@ -142,7 +142,7 @@ elements such as voltage sources, capacitors, resistors, and MOSFETs on
 an interactive grid. They then submit a DC, AC, or transient analysis of
 their circuit to the system for grading.
 
-.. image:: ../Images/CircuitSchematicExample.gif
+.. image:: ../Images/CircuitSchematicExample.png
  :alt: Image of a circuit schematic builder
 
 Create a Circuit Schematic Builder Problem
@@ -229,7 +229,7 @@ The JS Input problem that you create must use HTML, JavaScript, and cascading st
 (CSS). You can use any application creation tool, such as the Google Web Toolkit (GWT), to
 create your JS Input problem.
 
-.. image:: ../Images/JavaScriptInputExample.gif
+.. image:: ../Images/JavaScriptInputExample.png
  :alt: Image of a JavaScript Input problem
 
 Create a Custom JavaScript Display and Grading Problem
@@ -515,7 +515,7 @@ In an image mapped input problem, students click inside a defined area
 in an image. You define this area by including coordinates in the body
 of the problem.
 
-.. image:: Images/ImageMappedInputExample.gif
+.. image:: Images/ImageMappedInputExample.png
  :alt: Image of an image mapped input problem
 
 Create an Image Mapped Input Problem
@@ -564,7 +564,7 @@ Math Expression Input
 
 In math expression input problems, students enter text that represents a mathematical expression into a field, and the LMS changes that text to a symbolic expression that appears below that field. 
 
-.. image:: Images/MathExpressionInputExample.gif
+.. image:: Images/MathExpressionInputExample.png
  :alt: Image of math expression input problem
 
 Unlike numerical input problems, which only allow integers and a few select constants, math expression problems can include unknown variables and more complicated symbolic expressions. The grader uses a numerical sampling to determine whether the student's response matches the instructor-provided math expression, to a specified numerical tolerance. The instructor must specify the allowed variables in the expression as well as the range of values for each variable.
@@ -715,7 +715,7 @@ gives the student feedback or a hint based on that response so that the
 student is more likely to answer correctly on the next attempt. These
 problems can be text input or multiple choice problems.
 
-.. image:: Images/ProblemWithAdaptiveHintExample.gif
+.. image:: Images/ProblemWithAdaptiveHintExample.png
  :alt: Image of a problem with an adaptive hint
 
 Create a Problem with an Adaptive Hint
@@ -748,7 +748,7 @@ adjustments.
           information about how to create mathematical expressions in Studio using
           MathJax, see *A Brief Introduction to MathJax in Studio*.
 
-.. image:: Images/ProblemWrittenInLaTeX.gif
+.. image:: Images/ProblemWrittenInLaTeX.png
  :alt: Image of a problem written in LaTeX
 
 Create a Problem Written in LaTeX
