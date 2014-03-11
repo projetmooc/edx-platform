@@ -1,7 +1,7 @@
 # .coveragerc for lms
 [run]
 data_file = reports/lms/.coverage
-source = lms,common/djangoapps,common/lib/xmodule,cms
+source = lms,common/djangoapps
 omit = lms/envs/*, common/djangoapps/terrain/*, common/djangoapps/*/migrations/*
 
 [report]
