@@ -482,8 +482,8 @@ class Transcript(object):
         if input_format == 'srt':
 
             if output_format == 'txt':
-                text = SubRipFile.from_string(srt_subs.decode('utf8'))
-                return HTMLParser().unescape("\n".join(text))
+                text = SubRipFile.from_string(content.decode('utf8')).text
+                return HTMLParser().unescape(text)
 
             elif output_format == 'sjson':
                 raise NotImplemented
