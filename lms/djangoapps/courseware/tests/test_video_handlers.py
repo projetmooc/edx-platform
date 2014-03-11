@@ -430,12 +430,13 @@ class TestVideoTranscriptsDownload(TestVideo):
             """)
 
         self.assertEqual(text, expected_text)
-        self.assertEqual(filename, self.item.youtube_id_1_0)
+        self.assertEqual(filename, self.item.youtube_id_1_0 + '.srt')
 
     def test_non_en(self):
         self.item.transcript_language = 'uk'
         self.non_en_file.seek(0)
         _upload_file(self.non_en_file, self.item_descriptor.location, os.path.split(self.non_en_file.name)[1])
+
         text, filename, _ = self.item.get_transcript()
         expected_text = textwrap.dedent("""
         0
@@ -443,7 +444,7 @@ class TestVideoTranscriptsDownload(TestVideo):
         Привіт, edX вітає вас.
         """)
         self.assertEqual(text, expected_text)
-        self.assertEqual(filename, os.path.splitext(os.path.split(self.non_en_file.name)[1])[0])
+        self.assertEqual(filename, os.path.split(self.non_en_file.name)[1])
 
     def test_value_error(self):
         good_sjson = _create_file(content='bad content')

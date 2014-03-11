@@ -360,14 +360,12 @@ class VideoModule(VideoFields, XModule):
                 srt_subs = generate_srt_from_sjson(json.loads(data), speed=1.0)
         else:
 
-            data = asset(self.location, None, None, self.transcripts[lang]).data
+            srt_subs = asset(self.location, None, None, self.transcripts[lang]).data
             sub_filename = '{}.{}'.format(os.path.splitext(self.transcripts[lang])[0], transcript_format)
 
             if transcript_format == 'txt':
-                text = SubRipFile.from_string(data.decode('utf8'))
+                text = SubRipFile.from_string(srt_subs.decode('utf8'))
                 srt_subs = HTMLParser().unescape("\n".join(text))
-            else:
-                srt_subs = generate_srt_from_sjson(json.loads(data), speed=1.0)
 
         if not srt_subs:
             log.debug('no subtitles produced in get_transcript')
