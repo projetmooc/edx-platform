@@ -42,7 +42,7 @@ class TestVideoYouTube(TestVideo):
             'yt_test_url': 'https://gdata.youtube.com/feeds/api/videos/',
             'transcript_download_format': 'srt',
             'transcript_download_formats_list': [{'display_name': 'SubRip (.srt) file', 'value': 'srt'}, {'display_name': 'Text (.txt) file', 'value': 'txt'}],
-            'transcript_language': 'en',
+            'transcript_language': u'en',
             'transcript_languages': '{"en": "English", "uk": "Ukrainian"}',
             'transcript_translation_url': self.item_descriptor.xmodule_runtime.handler_url(
                 self.item_descriptor, 'transcript'
@@ -51,6 +51,7 @@ class TestVideoYouTube(TestVideo):
                 self.item_descriptor, 'transcript'
             ).rstrip('/?') + '/available_translations',
         }
+
         self.assertEqual(
             context,
             self.item_descriptor.xmodule_runtime.render_template('video.html', expected_context),
@@ -106,7 +107,7 @@ class TestVideoNonYouTube(TestVideo):
             'yt_test_url': 'https://gdata.youtube.com/feeds/api/videos/',
             'transcript_download_format': 'srt',
             'transcript_download_formats_list': [{'display_name': 'SubRip (.srt) file', 'value': 'srt'}, {'display_name': 'Text (.txt) file', 'value': 'txt'}],
-            'transcript_language': 'en',
+            'transcript_language': u'en',
             'transcript_languages': '{"en": "English"}',
             'transcript_translation_url': self.item_descriptor.xmodule_runtime.handler_url(
                 self.item_descriptor, 'transcript'
@@ -325,7 +326,7 @@ class TestGetHtmlMethod(BaseTestXmodule):
             'yt_test_url': 'https://gdata.youtube.com/feeds/api/videos/',
             'transcript_download_format': 'srt',
             'transcript_download_formats_list': [{'display_name': 'SubRip (.srt) file', 'value': 'srt'}, {'display_name': 'Text (.txt) file', 'value': 'txt'}],
-            'transcript_language': 'en',
+            'transcript_language': u'en',
             'transcript_languages': '{"en": "English"}',
         }
 
