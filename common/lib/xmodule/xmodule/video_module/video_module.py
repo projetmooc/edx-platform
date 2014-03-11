@@ -44,6 +44,7 @@ from .transcripts_utils import (
     TranscriptsGenerationException,
     save_subs_to_store,
     asset_location,
+    save_to_store
 )
 
 from .video_utils import create_youtube_string
@@ -365,38 +366,36 @@ class VideoModule(VideoFields, XModule):
             - upload two fiels consequently
             - donwload file
 
+        We are RESTful here. URL names are:
+            /translation/uk
+            /download
+            /available_translation/
         """
 
         if dispatch.startswith('translation/'):
 
-            if request.method == 'DELETE':   # Nothing to do:  we clear field on front-end.
-                return Response(status=204)  # no content
+            if request.method == 'DELETE':  # Nothing to do:  we clear field on front-end.
+                return Response(status=204)
 
             elif request.method == 'POST':
                 try:
-                    subtitle = request.POST['file']
-                    # Get the language of subtitle.
-                    language = request.path[-2:]
-                    # TODO fix as Alex did previously
-                    from xmodule.contentstore.content import StaticContent
-                    from xmodule.contentstore.django import contentstore
-                    mime_type = 'text/plain'
+                    subtitles = request.POST['file']
+                    language = request.path[-2:]  # Get the language of subtitles.
                     upload_filename = '{}_subs_{}'.format(language, subtitle.filename)
-                    content_location = asset_location(self.location, upload_filename)
-                    content = StaticContent(content_location, upload_filename, mime_type, subtitle.file.read())
-                    contentstore().save(content)
-                    response = {'videoId': upload_filename, 'status': 'Success'}
-                    return Response(json.dumps(response), status=201)
+                    save_to_store(subtitles.file.read(), upload_filename, 'text/plain', self.location)
                 except:
                     return Response("Failed to upload", status=400)
+                else:
+                    response = {'videoId': upload_filename, 'status': 'Success'}
+                    return Response(json.dumps(response), status=201)
 
             elif request.method == 'GET':
 
-                # dispatch.split('/').pop() REST? @TODO
+                # Old style: language in request.GET.get('language'), will be replaced by new RESTful: dispatch.split('/').pop(). TODO: change on front-end
                 lang = request.GET.get('language') or dispatch.split('/').pop()
 
                 if not lang:
-                    log.info("Invalid /transcript GET parameters.")
+                    log.info("Invalid /translation GET request.")
                     return Response(status=400)
 
                 if lang not in ['en'] + self.transcripts.keys():
