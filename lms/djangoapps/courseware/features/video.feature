@@ -81,14 +81,10 @@ Feature: LMS Video component
 
   # 10
   Scenario: Language menu works correctly in Video component
-<<<<<<< HEAD
-    Given I am registered for the course "test_course"
+\    Given I am registered for the course "test_course"
       And I have a "chinese_transcripts.srt" transcript file in assets
       And I have a "subs_OEoXaMPEzfM.srt.sjson" transcript file in assets
       And it has a video in "Youtube" mode:
-=======
-    Given the course has a Video component in Youtube mode:
->>>>>>> Fix acceptance test.
       | transcripts                       | sub         |
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM |
     And I make sure captions are closed
@@ -185,11 +181,11 @@ Feature: LMS Video component
       | track               | download_track |
       | http://example.org/ | true           |
     And I open the section with videos
-    And I can download transcript in "srt" format
+    Then I can download transcript in "srt" format with text "0\n00:00:00,270"
     And I select the transcript format "txt"
-    And I can download transcript in "txt" format
+    Then I can download transcript in "txt" format with text "好 各位同学"
     When I open video "B"
-    Then I can download transcript in "txt" format
+    Then I can download transcript in "txt" format with text "0\n00:00:00,270"
     When I open video "C"
     Then menu "download_transcript" doesn't exist
 
@@ -217,14 +213,15 @@ Feature: LMS Video component
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM | true           |
     And I select language with code "zh"
     And I see "好 各位同学" text in the captions
-    Then I can download transcript in "srt" format
+    Then I can download transcript in "srt" format with text "好 各位同学"
 
   # 21
   Scenario: Download button works correctly w/o english transcript in HTML5 mode of Video component
-    Given the course has a Video component in HTML5 mode:
+    Given I am registered for the course "test_course"
+    And I have a "chinese_transcripts.srt" transcript file in assets
+    And it has a video in "HTML5" mode:
       | transcripts                       | sub         | download_track |
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM | true           |
     And I select language with code "zh"
     And I see "好 各位同学" text in the captions
-    And transcript is downloadable
-
+    Then I can download transcript in "srt" format with text "好 各位同学"

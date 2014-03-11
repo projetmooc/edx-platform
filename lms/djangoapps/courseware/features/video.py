@@ -432,28 +432,21 @@ def video_alignment(_step, transcript_visibility):
 
     assert all([width, height])
 
-
-@step('I can download transcript in "([^"]*)" format$')
-def i_can_download_transcript(_step, format):
+@step('I can download transcript in "([^"]*)" format with text "([^"]*)"$')
+def i_can_download_transcript(_step, format, text):
     button = world.css_find('.video-tracks .a11y-menu-button').first
     assert button.text.strip() == '.' + format
 
     formats = {
-        'srt': {
-            'content': '0\n00:00:00,270',
-            'mime_type': 'application/x-subrip'
-        },
-        'txt': {
-            'content': 'Hi, welcome to Edx.',
-            'mime_type': 'text/plain'
-        },
+        'srt': 'application/x-subrip',
+        'txt': 'text/plain',
     }
 
     url = world.css_find(VIDEO_BUTTONS['download_transcript'])[0]['href']
     request = ReuqestHandlerWithSessionId()
     assert request.get(url).is_success()
-    assert request.check_header('content-type', formats[format]['mime_type'])
-    assert request.content.startswith(formats[format]['content'])
+    assert request.check_header('content-type', formats['mime_type'])
+    assert (text in request.content)
 
 
 @step('I select the transcript format "([^"]*)"$')
@@ -473,3 +466,4 @@ def select_transcript_format(_step, format):
 
     assert world.css_find(menu_selector + ' .active a')[0]['data-value'] == format
     assert button.text.strip() == '.' + format
+
