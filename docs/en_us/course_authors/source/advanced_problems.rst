@@ -341,25 +341,19 @@ Custom Python-Evaluated Input ("Write-Your-Own-Grader")
 -------------------------------------------------------
 
 
-In custom Python-evaluated input  (also called "write-your-own-grader problems" problems), the grader evaluates a student's response using a Python script that you create and embed in the problem. These problems can be any type. Numerical input and text input problems are the most popular write-your-own-grader problems.
+In custom Python-evaluated input (also called "write-your-own-grader problems" problems), the grader uses a Python script that you create and embed in the problem to evaluates a student's response or provide hints. These problems can be any type. Numerical input and text input problems are the most popular write-your-own-grader problems.
 
 .. image:: Images/CustomPythonExample.png
  :alt: Image of a write your own grader problem
 
-Create a Write-Your-Own-Grader Problem
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Custom Python-evaluated input problems can include the following:
 
-To create a write-your-own-grader problem:
-
-#. In the unit where you want to create the problem, click **Problem**
-   under **Add New Component**, and then click the **Advanced** tab.
-#. Click **Custom Python-Evaluated Input**.
-#. In the component that appears, click **Edit**.
-#. In the component editor, replace the example code with your own code.
-#. Click **Save**.
-
-For more information about write-your-own-grader problems, see `CustomResponse XML and Python
-Script <https://edx.readthedocs.org/en/latest/course_data_formats/custom_response.html>`_.
+:ref:`Chemical Equation`
+:ref:`Custom JavaScript Display and Grading`
+:ref:`Custom Python Evaluated Input`
+:ref:`Gene Explorer`
+:ref:`Molecule Editor`
+:ref:`Protein Builder`
 
 .. list-table::
    :widths: 20 80
@@ -372,6 +366,162 @@ Script <https://edx.readthedocs.org/en/latest/course_data_formats/custom_respons
      - 
    * - <textline size="10" correct_answer="3"/>
      - This tag includes the ``size``, ``correct_answer``, and ``label`` attributes. The ``correct_answer`` attribute is optional.
+
+You can create one of these problems in :ref:`Answer Tag Format` or :ref:`Script Tag Format`.
+
+.. _Answer Tag Format:
+
+Answer Tag Format
+~~~~~~~~~~~~~~~~~
+
+The answer tag format encloses the Python script in an ``<answer>`` tag:
+
+.. code-block:: xml
+
+  <answer>
+  if answers[0] == expect:
+      correct[0] = 'correct'
+      overall_message = 'Good job!'
+  else:
+      correct[0] = 'incorrect'
+      messages[0] = 'This answer is incorrect'
+      overall_message = 'Please try again'
+  </answer>
+
+.. important:: Python honors indentation. Within the ``<answer>`` tag, you must begin your script with no indentation.
+
+The Python script interacts with these variables in the global context:
+
+* ``answers``: An ordered list of answers the student provided. For example, if the student answered ``6``, ``answers[0]`` would equal ``6``.
+* ``expect``: The value of the ``expect`` attribute of ``<customresponse>`` (if provided).
+* ``correct``: An ordered list of strings indicating whether the student answered the question correctly.  Valid values are ``"correct"``, ``"incorrect"``, and ``"unknown"``.  You can set these values in the script.
+* ``messages``: An ordered list of messages that appear under each response field in the problem. You can use this to provide hints to users. For example, if you include ``messages[0] = "The capital of California is Sacramento"``, that message appears under the first response field in the problem.
+* ``overall_message``: A message that appears beneath the entire problem. You can use this to provide a hint that applies to the entire problem rather than a particular response field.
+
+Create a Custom Python-Evaluated Input Problem in Answer Tag Format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To create a custom Python-evaluated input problem using an ``<answer>`` tag:
+
+#. In the unit where you want to create the problem, click **Problem**
+   under **Add New Component**, and then click the **Advanced** tab.
+#. Click **Custom Python-Evaluated Input**.
+#. In the component that appears, click **Edit**.
+#. In the component editor, replace the example code with the following code.
+#. Click **Save**.
+
+.. code-block:: xml
+    <problem>
+        <p>What is the sum of 2 and 3?</p>
+
+        <customresponse expect="5">
+        <textline math="1" />
+        </customresponse>
+
+        <answer>
+    if answers[0] == expect:
+        correct[0] = 'correct'
+        overall_message = 'Good job!'
+    else:
+        correct[0] = 'incorrect'
+        messages[0] = 'This answer is incorrect'
+        overall_message = 'Please try again'
+        </answer>
+    </problem>
+
+.. important:: Python honors indentation. Within the ``<answer>`` tag, you must begin your script with no indentation.
+
+.. _Script Tag Format:
+
+Script Tag Format
+~~~~~~~~~~~~~~~~~
+
+The script tag format encloses a Python script that contains a "check function" in a ``<script>`` tag, and adds the ``cfn`` attribute of the ``<customresponse>`` tag to reference that function:
+
+.. code-block:: xml
+
+  <problem>
+
+  <script type="loncapa/python">
+
+  def test_add(expect, ans):
+      try:
+          a1=int(ans[0])
+          a2=int(ans[1])
+          return (a1+a2) == int(expect)
+      except ValueError:
+          return False
+
+  def test_add_to_ten(expect, ans):
+      return test_add(10, ans)
+
+  </script>
+
+  <p>Enter two integers that sum to 10. </p>
+  <customresponse cfn="test_add_to_ten">
+          <textline size="10"/><br/>
+          <textline size="10/>
+  </customresponse>
+
+    </problem>
+
+**Important**: Python honors indentation. Within the ``<script>`` tag, the ``def check_func(expect, ans):`` line must have no indentation.
+
+The **check** function accepts two arguments:
+
+* ``expect`` is the value of the ``expect`` attribute of ``<customresponse>`` (if provided)
+* ``answer`` is either:
+
+    * The value of the answer the student provided, if the problem only has one response field.
+    * An ordered list of answers the student provided, if the problem has multiple response fields.
+
+The **check** function can return any of the following to indicate whether the student's answer is correct:
+
+* ``True``: Indicates that the student answered correctly for all response fields.
+* ``False``: Indicates that the student answered incorrectly. All response fields are marked as incorrect.
+* A dictionary of the form: ``{ 'ok': True, 'msg': 'Message' }``
+  If the dictionary's value for ``ok`` is set to ``True``, all response fields are marked correct; if it is set to ``False``, all response fields are marked incorrect. The ``msg`` is displayed beneath all response fields, and it may contain XHTML markup.
+* A dictionary of the form 
+
+.. code-block:: xml
+      
+    
+    { 'overall_message': 'Overall message',
+        'input_list': [
+            { 'ok': True, 'msg': 'Feedback for input 1'},
+            { 'ok': False, 'msg': 'Feedback for input 2'},
+            ... ] }
+
+The last form is useful for responses that contain multiple response fields. It allows you to provide feedback for each response field individually, as well as a message that applies to the entire response.
+
+Example of a checking function:
+
+.. code-block:: python
+
+    def check_func(expect, answer_given):
+        check1 = (int(answer_given[0]) == 1)
+        check2 = (int(answer_given[1]) == 2)
+        check3 = (int(answer_given[2]) == 3)
+        return {'overall_message': 'Overall message',
+                    'input_list': [
+                        { 'ok': check1, 'msg': 'Feedback 1'},
+                        { 'ok': check2, 'msg': 'Feedback 2'},
+                        { 'ok': check3, 'msg': 'Feedback 3'} ] }
+
+The function checks that the user entered ``1`` for the first input, ``2`` for the  second input, and ``3`` for the third input. It provides feedback messages for each individual input, as well as a message displayed beneath the entire problem.
+
+
+Create a Custom Python-Evaluated Input Problem in Script Tag Format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To create a custom Python-evaluated input problem using a ``<script>`` tag:
+
+#. In the unit where you want to create the problem, click **Problem**
+   under **Add New Component**, and then click the **Advanced** tab.
+#. Click **Custom Python-Evaluated Input**.
+#. In the component that appears, click **Edit**.
+#. In the component editor, replace the example code with the following code.
+#. Click **Save**.
 
 **Sample Problem XML**:
 
@@ -431,7 +581,6 @@ The following template includes answers that appear when the student clicks **Sh
     return (a1+a2)== float(expect)
   </script>
 
-
   <p>Problem text</p>
   <customresponse cfn="test_add" expect="20">
           <textline size="10" correct_answer="11" label="Integer #1"/><br/>
@@ -459,7 +608,6 @@ The following template does not return answers when the student clicks **Show An
     return (a1+a2)== float(expect)
   </script>
 
-
   <p>Enter two real numbers that sum to 20: </p>
   <customresponse cfn="test_add" expect="20">
           <textline size="10"  label="Integer #1"/><br/>
@@ -474,141 +622,6 @@ The following template does not return answers when the student clicks **Show An
       </solution>
   </problem>
 
-More Information
-~~~~~~~~~~~~~~~~
-
-CustomResponse problems execute Python script to check student answers and provide hints.
-
-There are two general ways to create a CustomResponse problem:
-
-**Answer tag format**
-
-One format puts the Python code in an ``<answer>`` tag:
-
-.. code-block:: xml
-
-    <problem>
-        <p>What is the sum of 2 and 3?</p>
-
-        <customresponse expect="5">
-        <textline math="1" />
-        </customresponse>
-
-        <answer>
-    # Python script goes here
-        </answer>
-    </problem>
-
-
-The Python script interacts with these variables in the global context:
-    * ``answers``: An ordered list of answers the student provided.
-      For example, if the student answered ``6``, then ``answers[0]`` would
-      equal ``6``.
-    * ``expect``: The value of the ``expect`` attribute of ``<customresponse>``
-      (if provided).
-    * ``correct``: An ordered list of strings indicating whether the
-      student answered the question correctly.  Valid values are
-      ``"correct"``, ``"incorrect"``, and ``"unknown"``.  You can set these
-      values in the script.
-    * ``messages``: An ordered list of message strings that will be displayed
-      beneath each input.  You can use this to provide hints to users.
-      For example ``messages[0] = "The capital of California is Sacramento"``
-      would display that message beneath the first input of the response.
-    * ``overall_message``: A string that will be displayed beneath the
-      entire problem.  You can use this to provide a hint that applies
-      to the entire problem rather than a particular input.
-
-Example of a checking script:
-
-.. code-block:: python
-
-    if answers[0] == expect:
-        correct[0] = 'correct'
-        overall_message = 'Good job!'
-    else:
-        correct[0] = 'incorrect'
-        messages[0] = 'This answer is incorrect'
-        overall_message = 'Please try again'
-
-**Important**: Python honors indentation.  Within the ``<answer>`` tag, you must begin your script with no indentation.
-
-**Script tag format**
-
-The other way to create a CustomResponse is to put a "checking function"
-in a ``<script>`` tag, then use the ``cfn`` attribute of the
-``<customresponse>`` tag:
-
-.. code-block:: xml
-
-    <problem>
-        <p>What is the sum of 2 and 3?</p>
-
-        <customresponse cfn="check_func" expect="5">
-        <textline math="1" />
-        </customresponse>
-
-        <script type="loncapa/python">
-    def check_func(expect, ans):
-        # Python script goes here
-        </script>
-    </problem>
-
-
-**Important**: Python honors indentation.  Within the ``<script>`` tag, the ``def check_func(expect, ans):`` line must have no indentation.
-
-The check function accepts two arguments:
-    * ``expect`` is the value of the ``expect`` attribute of ``<customresponse>``
-      (if provided)
-    * ``answer`` is either:
-
-        * The value of the answer the student provided, if there is only one input.
-        * An ordered list of answers the student provided, if there
-          are multiple inputs.
-
-There are several ways that the check function can indicate whether the student
-succeeded.  The check function can return any of the following:
-
-    * ``True``: Indicates that the student answered correctly for all inputs.
-    * ``False``: Indicates that the student answered incorrectly.
-      All inputs will be marked incorrect.
-    * A dictionary of the form: ``{ 'ok': True, 'msg': 'Message' }``
-      If the dictionary's value for ``ok`` is set to ``True``, all inputs are
-      marked correct; if it is set to ``False``, all inputs are marked incorrect.
-      The ``msg`` is displayed beneath all inputs, and it may contain
-      XHTML markup.
-    * A dictionary of the form 
-
-.. code-block:: xml
-      
-    
-    { 'overall_message': 'Overall message',
-        'input_list': [
-            { 'ok': True, 'msg': 'Feedback for input 1'},
-            { 'ok': False, 'msg': 'Feedback for input 2'},
-            ... ] }
-
-The last form is useful for responses that contain multiple inputs.
-It allows you to provide feedback for each input individually,
-as well as a message that applies to the entire response.
-
-Example of a checking function:
-
-.. code-block:: python
-
-    def check_func(expect, answer_given):
-        check1 = (int(answer_given[0]) == 1)
-        check2 = (int(answer_given[1]) == 2)
-        check3 = (int(answer_given[2]) == 3)
-        return {'overall_message': 'Overall message',
-                    'input_list': [
-                        { 'ok': check1, 'msg': 'Feedback 1'},
-                        { 'ok': check2, 'msg': 'Feedback 2'},
-                        { 'ok': check3, 'msg': 'Feedback 3'} ] }
-
-The function checks that the user entered ``1`` for the first input, 
-``2`` for the  second input, and ``3`` for the third input.
-It provides feedback messages for each individual input, as well
-as a message displayed beneath the entire problem.
 
 .. _Drag and Drop:
 
@@ -751,17 +764,11 @@ To create a image mapped input problem:
    * - ``<imageresponse>``
      - Indicates that the problem is an image mapped input problem.
    * - ``<imageinput>``
-     - Specifies the image file and the region the student must click. This tag includes the ``src``, ``width``, ``height``, and ``rectangle`` attributes.
+     - Specifies the image file and the region in the file that the student must click. This tag includes the ``src``, ``width``, ``height``, and ``rectangle`` attributes.
 
 **XML Attribute Information**
 
-<imageresponse>
-
-  .. image:: /Images/imageresponse1.png
-
-<imageinput>
-
-  .. image:: /Images/imageresponse2.png
+In XML_Tags.rst
 
 .. _Math Expression Input:
 
@@ -906,8 +913,8 @@ To create a math expression input problem:
     </solution>
   </problem>
 
-Formula Response (Math Expression Input Problems)
--------------------------------------------------
+Math Expression Input XML
+-------------------------
 
 .. list-table::
    :widths: 20 80
@@ -923,37 +930,7 @@ Formula Response (Math Expression Input Problems)
 
 **XML Attribute Information**
 
-<script>
-
-
-  .. image:: /Images/formularesponse.png
-
-
-<formularesponse>
-
-
-  .. image:: /Images/formularesponse3.png
-
-Children may include ``<formulaequationinput/>``.
-
-If you do not need to specify any samples, you should look into the use of the
-Numerical Response input type, as it provides all the capabilities of Formula
-Response without the need to specify any unknown variables.
-
-<responseparam>
-
-
-  .. image:: /Images/formularesponse6.png
-
-<formulaequationinput/>
-
-========= ============================================= =====
-Attribute                  Description                  Notes
-========= ============================================= =====
-size      (optional) defines the size (i.e. the width)
-          of the input box displayed to students for
-          typing their math expression.
-========= ============================================= =====
+See XML_Tags.rst
 
 The formula equation input is a math input type used with Numerical and Formula
 responses only. It is not to be used with Symoblic Response. It is comparable
@@ -968,9 +945,6 @@ back an OK'd copy.
 The basic appearance is that of a textbox with a preview box below it. The
 student types in math (see note below for syntax), and a typeset preview
 appears below it. Even complicated math expressions may be entered in.
-
-For more information about the syntax, look in the course author's
-documentation, under Appendix E, the section about Numerical Responses.
 
 **Formats**
 

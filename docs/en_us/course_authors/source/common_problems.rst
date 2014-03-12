@@ -23,9 +23,7 @@ The following are the common problem types in Studio:
 
 These problems are easy to access in Studio. To create them, click
 **Problem** under **Add New Component**, click the **Common Problem
-Types** tab, and then click the name of the problem. (Note that
-**Checkbox** doesn't appear in the list of common problem types. To
-create a checkbox problem, you'll click **Blank Common Problem**.)
+Types** tab, and then click the name of the problem. 
 
 .. note:: All problems must include labels for accessibility. The label generally includes the text of the main question in your problem. To add a label for a common problem, surround the text of the label with angle brackets pointed toward the text (>>*label text*<<).
 
@@ -46,6 +44,11 @@ at least one correct answer.
 ==========================
 Create a Checkbox Problem
 ==========================
+
+You can create checkbox problems in the Simple Editor or in the Advanced Editor.
+
+Simple Editor
+-------------
 
 #. Under **Add New Component**, click **Problem**.
 #. In the **Select Problem Component Type** screen, click **Checkboxes** on the **Common Problem Types** tab.
@@ -78,100 +81,44 @@ following.
     Learning about the benefits of preventative healthcare can be particularly 
     difficult. >>Check all of the reasons below why this may be the case.<<
 
-    [x] A large amount of time passes between undertaking a preventative measure 
-    and seeing the result. 
+    [x] A large amount of time passes between undertaking a preventative measure and seeing the result. 
     [ ] Non-immunized people will always fall sick. 
-    [x] If others are immunized, fewer people will fall sick regardless of a 
-    particular individual's choice to get immunized or not. 
+    [x] If others are immunized, fewer people will fall sick regardless of a particular individual's choice to get immunized or not. 
     [x] Trust in healthcare professionals and government officials is fragile. 
 
     [explanation]
-    People who are not immunized against a disease may still not fall sick from 
-    the disease. If someone is trying to learn whether or not preventative measures 
-    against the disease have any impact, he or she may see these people and conclude, 
-    since they have remained healthy despite not being immunized, that immunizations 
-    have no effect. Consequently, he or she would tend to believe that immunization 
+    People who are not immunized against a disease may still not fall sick from the disease. If someone is trying to learn whether or not preventative measures against the disease have any impact, he or she may see these people and conclude, since they have remained healthy despite not being immunized, that immunizations have no effect. Consequently, he or she would tend to believe that immunization 
     (or other preventative measures) have fewer benefits than they actually do.
     [explanation]
 
-==========================
-Checkbox Problem XML
-==========================
+Advanced Editor
+---------------
 
-**Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<choiceresponse>``
-     - Specifies that the problem lists answer options for students to choose from.
-   * - ``<checkboxgroup>``
-     - A child of ``<choiceresponse>``. Specifies that the problem is a checkbox problem. Can include a ``direction`` attribute and a ``label`` attribute.
-   * - ``<choice>``
-     - A child of ``<checkboxgroup>``. Designates an answer option. Each choice must include the ``correct`` attribute, set to ``true`` (for a correct answer) or ``false`` (for an incorrect answer). For checkbox problems, more than one option can be a correct answer.
-
+To create this problem in the Advanced Editor, click the **Advanced** tab in the Problem component editor, and then replace the existing code with the following code.
 
 .. code-block:: xml
 
   <problem>
   <startouttext/>
-    <p>Learning about the benefits of preventative healthcare can be particularly
-     difficult. Check all of the reasons below why this may be the case.</p>
+    <p>Learning about the benefits of preventative healthcare can be particularly difficult. Check all of the reasons below why this may be the case.</p>
 
   <choiceresponse>
     <checkboxgroup direction="vertical" label="Check all of the reasons below why this may be the case">
-      <choice correct="true"><text>A large amount of time passes between undertaking
-      a preventative measure and seeing the result.</text></choice>
-      <choice correct="false"><text>Non-immunized people will always fall sick.</text>
-      </choice>
-      <choice correct="true"><text>If others are immunized, fewer people will fall 
-      sick regardless of a particular individual's choice to get immunized or not.
-      </text></choice>
-      <choice correct="true"><text>Trust in healthcare professionals and government 
-      officials is fragile.</text></choice>
+      <choice correct="true"><text>A large amount of time passes between undertaking a preventative measure and seeing the result.</text></choice>
+      <choice correct="false"><text>Non-immunized people will always fall sick.</text></choice>
+      <choice correct="true"><text>If others are immunized, fewer people will fall sick regardless of a particular individual's choice to get immunized or not.</text></choice>
+      <choice correct="true"><text>Trust in healthcare professionals and government officials is fragile.</text></choice>
     </checkboxgroup>
 
    <solution>
    <div class="detailed-solution">
    <p>Explanation</p>
-   <p>People who are not immunized against a disease may still not fall sick from the 
-   disease. If someone is trying to learn whether or not preventative measures 
-   against the disease have any impact, he or she may see these people and conclude, 
-   since they have remained healthy despite not being immunized, that immunizations 
-   have no effect. Consequently, he or she would tend to believe that immunization 
-   (or other preventative measures) have fewer benefits than they actually do.</p>
+   <p>People who are not immunized against a disease may still not fall sick from the disease. If someone is trying to learn whether or not preventative measures against the disease have any impact, he or she may see these people and conclude, since they have remained healthy despite not being immunized, that immunizations have no effect. Consequently, he or she would tend to believe that immunization (or other preventative measures) have fewer benefits than they actually do.</p>
    </div>
    </solution>
   </choiceresponse>
   </problem>
 
-
-=============================
-Checkbox Problem XML Template
-=============================
-
-.. code-block:: xml
-
-  <problem>
-  <startouttext/>
-    <p>Question text</p>
-
-  <choiceresponse>
-
-  <checkboxgroup direction="vertical" label="label text">
-  <choice correct="false"><text>Answer option 1 (incorrect)</text></choice>
-  <choice correct="true"><text>Answer option 2 (correct)</text></choice>
-  </checkboxgroup>
-
-   <solution>
-   <div class="detailed-solution">
-   <p>Solution or Explanation Heading</p>
-   <p>Solution or explanation text</p>
-   </div>
-   </solution>
-
-  </choiceresponse>
-  </problem>
 
 
 .. _Dropdown:
@@ -192,6 +139,11 @@ the dropdown arrow.
 ==========================
 Create a Dropdown Problem
 ==========================
+
+You can create dropdown problems in the Simple Editor or in the Advanced Editor.
+
+Simple Editor
+-------------
 
 To create a dropdown problem, follow these steps.
 
@@ -234,9 +186,10 @@ following.
     Life stage - infant, child, and adult:
     [[(Nominal), Discrete, Continuous]]
 
-==========================
-Dropdown Problem XML
-==========================
+Advanced Editor
+---------------
+
+To create this problem in the Advanced Editor, click the **Advanced** tab in the Problem component editor, and then replace the existing code with the following code.
 
 **Problem Code:**
 
@@ -261,64 +214,6 @@ Dropdown Problem XML
   </optionresponse>
   </problem>
 
-**Template**
-
-.. code-block:: xml
-
-  <problem>
-  <p>
-    Problem text</p>
-  <optionresponse>
-    <optioninput options="('Option 1','Option 2','Option 3')" correct="Option 2" label="label text"/>
-  </optionresponse>
-    <solution>
-      <div class="detailed-solution">
-      <p>Explanation or Solution Header</p>
-      <p>Explanation or solution text</p>
-      </div>
-    </solution>
-  </problem>
-
-.. code-block:: xml
-
-  <problem>
-   <p>Problem text</p>
-    <optionresponse>
-     options="('A','B')"
-      correct="A"/>
-      label="label text"
-    </optionresponse>
-   
-    <solution>
-      <div class="detailed-solution">
-      <p>Explanation or Solution Header</p>
-      <p>Explanation or solution text</p>
-      </div>
-    </solution>
-  </problem>
-
-  **XML Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<optionresponse>``
-     - Indicates that the problem is a dropdown problem.
-   * - ``<optioninput>``
-     - Lists the answer options. This tag includes the ``options``, ``correct``, and ``label`` attributes.
-
-**XML Attribute Information**
-
-<optionresponse>
-
-
-  .. image:: /Images/option_response1.png
-
-
-<optioninput>
-
-  .. image:: /Images/optionresponse2.png
-
 .. _Multiple Choice:
 
 *******************
@@ -337,6 +232,11 @@ the question.
 ==================================
 Create a Multiple Choice Problem
 ==================================
+
+You can create multiple choice problems in the Simple Editor or in the Advanced Editor.
+
+Simple Editor
+-------------
 
 #. Under **Add New Component**, click **Problem**.
 #. In the **Select Problem Component Type** screen, click **Multiple
@@ -390,7 +290,10 @@ following.
     investigating lateral inhibition using horseshoe crabs.
     [Explanation]
 
-**Problem Code:**
+Advanced Editor
+---------------
+
+To create this problem in the Advanced Editor, click the **Advanced** tab in the Problem component editor, and then replace the existing code with the following code.
 
 .. code-block:: xml
 
@@ -413,61 +316,6 @@ following.
   </solution>
   </problem>
 
-
-**Template**
-
-.. code-block:: xml
-
-  <problem>
-  <p>Question text</p>
-  <multiplechoiceresponse>
-    <choicegroup type="MultipleChoice" label="label text">
-      <choice correct="false" name="a">Incorrect choice</choice>
-      <choice correct="true" name="b">Correct choice</choice>
-    </choicegroup>
-  </multiplechoiceresponse>
-
-  <solution>
-    <div class="detailed-solution">
-    <p>Explanation or solution header</p>
-    <p>Explanation or solution text</p>
-    </div>
-  </solution>
-  </problem>
-
-
-**XML Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<multiplechoiceresponse>``
-     - Indicates that the problem is a multiple choice problem.
-   * - ``<choicegroup type="MultipleChoice">``
-     - Indicates the beginning of the list of options. Contains the ``label`` attribute.
-   * - ``<choice>``
-     - Lists an option. This tag includes the ``correct`` and ``name`` attributes.
-
-
-
-
-**XML Attribute Information**
-
-
-<multiplechoiceresponse>
-
-.. image:: /Images/multipleresponse.png
-
-
-<choicegroup>
-
-  .. image:: /Images/multipleresponse2.png
-
-
-<choice>
-
-  .. image:: /Images/multipleresponse3.png
-
 .. _Numerical Input:
 
 *******************
@@ -481,7 +329,7 @@ relatively simple mathematical expressions to answer a question.
  :alt: Image of a numerical input problem
 
 Note that students' responses don't have to be exact for these problems. You can 
-specify a margin of error, or tolerance. YOu can also specify a correct answer explicitly, or use a Python script. For more information, see the instructions below.
+specify a margin of error, or tolerance. You can also specify a correct answer explicitly, or use a Python script. For more information, see the instructions below.
 
 Responses for numerical input problems can include integers, fractions,
 and constants such as *pi* and *g*. Responses can also include text
