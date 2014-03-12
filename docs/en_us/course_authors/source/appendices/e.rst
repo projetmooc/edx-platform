@@ -137,6 +137,8 @@ Tags
      * - false (at least one required)
        - Indicates an incorrect answer.
 
+.. _Dropdown Problem XML:
+
 ==========================
 Dropdown Problem XML
 ==========================
@@ -215,9 +217,6 @@ Lists the answer options.
        - Indicates whether an answer is correct. Possible values are "true" and "false". Only one **correct** attribute can be set to "true".
      * - label (required)
        - Specifies the name of the response field.
-
-
-
 
 .. _Multiple Choice Problem XML:
 
@@ -307,172 +306,226 @@ Tags
      * - name
        - A unique name that the back end uses to refer to the choice.
 
+.. _Numerical Input Problem XML:
+
+===========================
+Numerical Input Problem XML
+===========================
+
+Templates
+---------
+
+The following templates represent problems with and without a numerical or percentage tolerance.
+
+Answer with no tolerance
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: xml
+
+  <p>TEXT OF PROBLEM
+      <numericalresponse answer="ANSWER (NUMBER)">
+          <formulaequationinput label="TEXT OF PROBLEM"/>
+      </numericalresponse>
+  </p>
+   
+    <solution>
+    <div class="detailed-solution">
+    <p>TEXT OF SOLUTION</p>
+    </div>
+  </solution>
+  </problem>
+
+Answer with a decimal tolerance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: xml
+
+  <problem>
+   
+    <p>TEXT OF PROBLEM
+    <numericalresponse answer="ANSWER (NUMBER)">
+      <responseparam type="tolerance" default="NUMBER (DECIMAL, e.g., .02)" />
+      <formulaequationinput label="TEXT OF PROBLEM"/>
+    </numericalresponse>
+  </p>
+   
+    <solution>
+    <div class="detailed-solution">
+    <p>TEXT OF SOLUTION</p>
+    </div>
+  </solution>
+  </problem>
 
+Answer with a percentage tolerance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _Numerical Response:
+.. code-block:: xml
 
-Numerical Response (Numerical Input Problems)
----------------------------------------------
+  <problem>
+   
+   <p>TEXT OF PROBLEM
+    <numericalresponse answer="ANSWER (NUMBER)">
+      <responseparam type="tolerance" default="NUMBER (PERCENTAGE, e.g., 3%)" />
+      <formulaequationinput label="TEXT OF PROBLEM"/>
+    </numericalresponse>
+   </p>
 
+    <solution>
+    <div class="detailed-solution">
+    <p>TEXT OF SOLUTION</p>
+    </div>
+  </solution>
+  </problem>
 
+Answer created with a script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**XML Attribute Information**
+.. code-block:: xml
 
+  <problem>
 
-XML_Tags.rst
+  <!-- Use python script spacing. The following should not be indented! -->
+  <script type="loncapa/python">
+  computed_response = math.sqrt(math.fsum([math.pow(math.pi,2), math.pow(math.e,2)]))
+  </script>
 
-.. _chemicalequationinput:
+  <p>TEXT OF PROBLEM
+      <numericalresponse answer="$computed_response">
+          <responseparam type="tolerance" default="0.0001" />
+          <formulaequationinput label="TEXT OF PROBLEM"/>
+      </numericalresponse>
+  </p>
 
-``<chemicalequationinput>``
------------------------------
+    <solution>
+    <div class="detailed-solution">
+     <p>TEXT OF SOLUTION</p>
+    </div>
+  </solution>
+  </problem>
 
-Description
+Tags
+----
 
-Indicates that the answer to this problem is a chemical equation. 
+* ``<numericalresponse>`` (required): Specifies that the problem is a numerical input problem.
+* ``<formulaequationinput>`` (required):
+* ``<responseparam>`` (optional): Specifies a tolerance, or margin of error, for an answer.
+* ``<script>`` (optional):
 
-Used in
-:ref:`Chemical Equation`
+.. note:: Some older problems use the ``<textline math="1" />`` tag instead of the ``<formulaequationinput />`` tag. However, the ``<textline math="1" />`` has been deprecated. All new problems should use the ``<formulaequationinput />`` tag.
 
-Parent
-``<customresponse>``
+**Tag:** ``<numericalresponse>``
 
-Children
-``<answer type=loncapa/python>``: Contains the Python script that grades the problem.
+Specifies that the problem is a numerical input problem.
 
-Attributes
+  Attributes
 
-``size`` (required): Specifies the size of the field where the student enters a response.
+  .. list-table::
+     :widths: 20 80
 
-``label`` (required):
+     * - Attribute
+       - Description
+     * - answer (required)
+       - The correct answer to the problem, given as a mathematical expression. 
 
+        .. note:: If you include a variable name preceded with a dollar sign ($) in the problem, you can include a script in the problem that computes the expression in terms of that variable.
 
-.. _Formula Response:
+        The grader evaluates the answer that you provide and the student's response in the same way. The grader also automatically simplifies any numeric expressions that you or a student provides. Answers can include simple expressions such as "0.3" and "42", or more complex expressions such as "1/3" and "sin(pi/5)". 
 
-Formula Response (Math Expression Input Problems)
--------------------------------------------------
+  Children
 
-.. list-table::
-   :widths: 20 80
-   :header-rows: 1
+  .. list-table::
+     :widths: 20 80
 
-   * - ``<formularesponse>``
-     - 
-   * - ``<formulaequationinput>``
-     - This tag includes the ``size`` and ``label`` attributes.
-   * - ``<script type="loncapa/python">``
-     - 
+     * - Child
+       - Description
+     * - ``<responseparam>``
+       - 
+     * - ``<formulaequationinput>``
+       - 
 
+**Tag:** * ``<formulaequationinput>``
 
-**XML Attribute Information**
+Creates a response field in the LMS where students enter a response.
 
-XML_Tags.rst
+  Attributes
 
+  .. list-table::
+     :widths: 20 80
 
-.. _customresponse:
+     * - size (optional)
+       - Defines the width, in characters, of the response field in the LMS.
 
-``<customresponse>``
-----------------------
 
-.. list-table::
-   :widths: 20 80
+**Tag:** ``<responseparam>``
 
-   * - ``<customresponse>``
-     - Indicates that this problem has a custom response. 
-   * - ``<script type="loncapa/python">``
-     - Indicates that the problem contains a Python script.
-   * - ``<customresponse cfn="test_add_to_ten">``
-     - 
-   * - ``<customresponse cfn="test_add" expect="20">``
-     - 
-   * - <textline size="10" correct_answer="3"/>
-     - This tag includes the ``size``, ``correct_answer``, and ``label`` attributes. The ``correct_answer`` attribute is optional.
+Specifies a tolerance, or margin of error, for an answer.
 
+  Attributes
 
+  .. list-table::
+     :widths: 20 80
 
-.. _Drag and Drop XML:
+     * - type (optional)
+       - "tolerance": Defines a tolerance for a number
+     * - default (optional)
+       - A number or a percentage specifying a numerical or percent tolerance.
 
-Drag and Drop XML
------------------
+**Tag:** ``<script>``
 
-For more information about how to create drag and drop problems, see `XML Format of Drag and Drop Input
-<https://edx.readthedocs.org/en/latest/course_data_formats/drag_and_drop/drag_and_drop_input.html>`_.
+Specifies a script that the grader uses to evaluate a student's response. A problem behaves as if all of the code in all of the script tags were in a single script tag. Specifically, any variables that are used in multiple ``<script>`` tags share a namespace and can be overriden.
 
+As with all Python, indentation matters, even though the code is embedded in XML.
 
+  Attributes
 
-.. _Image Response:
+  .. list-table::
+     :widths: 20 80
 
-Image Response (Image Mapped Input Problems)
---------------------------------------------
+     * - type (required)
+       - Must be set to "loncapa/python".
 
-**XML Tags**
+.. _Text Input Problem XML:
 
-.. list-table::
-   :widths: 20 80
+======================
+Text Input Problem XML
+======================
 
-   * - ``<imageresponse>``
-     - Indicates that the problem is an image mapped input problem.
-   * - ``<imageinput>``
-     - Specifies the image file and the region the student must click. This tag includes the ``src``, ``width``, ``height``, and ``rectangle`` attributes.
+Template
+--------
 
-**XML Attribute Information**
+.. code-block:: xml
 
-See XML_Tags.rst
+  <problem>
+      <p>Problem text</p>
+      <stringresponse answer="**.Correct answer 1.**" type="ci regexp">
+          <additional_answer>Correct answer 2</additional_answer>
+          <additional_answer>Correct answer 3</additional_answer>
+          <textline size="20" label="label text"/>
+          <hintgroup>
+              <stringhint answer="Incorrect answer A" type="ci" name="hintA" />
+                <hintpart on="hintA">
+                    <startouttext />Text of hint for incorrect answer A<endouttext />
+                </hintpart >
+              <stringhint answer="Incorrect answer B" type="ci" name="hintB" />
+                <hintpart on="hintB">
+                    <startouttext />Text of hint for incorrect answer B<endouttext />
+                </hintpart >
+              <stringhint answer="Incorrect answer C" type="ci" name="hintC" />
+                <hintpart on="hintC">
+                    <startouttext />Text of hint for incorrect answer C<endouttext />
+                </hintpart >
+          </hintgroup>
+      </stringresponse>
+      <solution>
+      <div class="detailed-solution">
+      <p>Explanation or Solution Header</p>
+      <p>Explanation or solution text</p>
+      </div>
+    </solution>
+  </problem>
 
-
-.. _Option Response:
-
-Option Response (Dropdown Problems)
------------------------------------
-
-**XML Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<optionresponse>``
-     - Indicates that the problem is a dropdown problem.
-   * - ``<optioninput>``
-     - Lists the answer options. This tag includes the ``options``, ``correct``, and ``label`` attributes.
-
-**XML Attribute Information**
-
-XML_Tags.rst
-
-.. _problem:
-
-``<problem> </problem>``
---------------------------
-
-These must be the first and last tags for any content created in the Advanced Editor in a Problem component.
-
-Used in: All
-
-Parent: None
-
-Children: Multiple
-
-Attributes: None
-
-
-.. _Schematic Response:
-
-Schematic Response (Circuit Schematic Problems)
------------------------------------------------
-
-The Schematic Response input type provides an interactive grid on which the
-student can construct a schematic answer, such as a circuit.
-
-**Sample Problem**
-
-.. image:: ../Images/CircuitSchematicExample.gif
- :alt: Image of a schematic response explanation
-
-
-
-.. _stringresponse:
-
-``<stringresponse>``
---------------------
+Tags
+----
 
 .. list-table::
    :widths: 20 80
@@ -480,46 +533,145 @@ student can construct a schematic answer, such as a circuit.
    * - ``<stringresponse>``
      - Indicates that the problem is a text input problem. 
    * - ``<textline>``
-     - Child of ``<stringresponse>``. Lists the answer options and contains the ``label`` attribute.
+     - Child of ``<stringresponse>``. Creates a response field in the LMS where the student enters a response.
    * - ``<additional_answer>`` (optional)
-     - Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers. Parent: :ref:`stringresponse`. Used in :ref:`Text Input`.
+     - Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers.
    * - ``<hintgroup>`` (optional)
-     - Indicates that the instructor has provided hints for certain common incorrect answers. Parent: :ref:`stringresponse`. Used in :ref:`Text Input`.
+     - Indicates that the instructor has provided hints for certain common incorrect answers.
    * - ``<stringhint />`` (optional)
-     - Child of ``<hintgroup>``. Specifies the text of the incorrect answer to provide the hint for. Contains answer, type, name. Used in :ref:`Text Input`.
+     - Child of ``<hintgroup>``. Specifies the text of the incorrect answer to provide the hint for. Contains answer, type, name.
    * - ``<hintpart>``
-     - Contains the name from ``<stringhint>``. Associates the incorrect answer with the hint text for that incorrect answer. Used in :ref:`Text Input`.
+     - Contains the name from ``<stringhint>``. Associates the incorrect answer with the hint text for that incorrect answer.
    * - ``<startouttext />``
      - Indicates the beginning of the text of the hint.
    * - ``<endouttext />``
      - Indicates the end of the text of the hint.
 
-**XML Attribute Information**
+**Tag:** ``<stringresponse>``
 
-XML_Tags.rst
+Indicates that the problem is a text input problem.
+
+  Attributes
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Attribute
+       - Description
+     * - answer (required)
+       - Specifies the correct answer. To designate the answer as a regular expression, add "regexp" to the **type** attribute. If you do not add "regexp" to the **type** attribute, the student's answer must match the value in this attribute exactly.
+     * - type (optional)
+       - Can specify whether the problem is case sensitive and allows regular expressions. If the ``<stringresponse>`` tag includes ``type="ci"``, the problem is not case sensitive. If the tag includes ``type="cs"``, the problem is case sensitive. If the tag includes ``type="regexp"``, the problem allows regular expressions. A **type** attribute in a ``<stringresponse>`` tag can also combine these values. For example, ``<stringresponse type="regexp cs">`` specifies that the prolem allows regular expressions and is case sensitive.
+
+  Children
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Child
+       - Description
+     * - ``<textline />`` (required)
+       - 
+     * - ``<additional_answer>`` (optional)
+       - 
+     * - ``<hintgroup>`` (optional)
+       - 
+
+**Tag:** ``<textline />``
+
+Creates a response field in the LMS where the student enters a response.
+
+  Attributes
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Attribute
+       - Description
+     * - label (required)
+       - Contains the text of the problem.
+     * - size (optional)
+       - Specifies the size, in characters, of the response field in the LMS.
+     * - hidden
+       - If set to "true", students cannot see the response field.
+
+**Tag:** ``<additional_answer>``
+
+Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers.
+
+**Tag:** ``<hintgroup>``
+
+Indicates that the instructor has provided hints for certain common incorrect answers.
+
+  Children
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Child
+       - Description
+     * - ``<stringhint>`` (required)
+       - 
+
+**Tag:** ``<stringhint>``
+
+Specifies a common incorrect answer to the problem.
+
+  Attributes
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Attribute
+       - Description
+     * - answer (required)
+       - The text of the incorrect answer.
+     * - name (required)
+       - The name of the hint that you want to provide.
+     * - type
+       - Specifies whether the text of the specified incorrect answer is case sensitive. Can be set to "cs" (case sensitive) or "ci" (case insensitive).
+
+  Children
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Child
+     * - ``<hintpart>`` (required)
+
+**Tag:** ``<hintpart>``
+
+Associates a common incorrect answer with the hint for that incorrect answer.
+
+  Attributes
+
+  .. list-table::
+     :widths: 20 80
+
+     * - Attribute
+       - Description
+     * - on
+       - The name of the hint. This must be the same as the **name** attribute of the ``<stringhint>`` tag. (The ``<stringhint>`` tag provides the name of the hint and the incorrect answer to associate with the hint. The ``<hintpart>`` tag contains the name of the hint and the text of the hint.)
+
+  Children
+
+  .. list-table::
+     :widths: 20 
+
+     * - Child
+     * - ``<startouttext />`` (required)
+     * - ``<endouttext />`` (required)
+
+**Tags:** ``<startouttext />`` and ``<endouttext>``
+
+Surround the text of the hint.
 
 
-.. _textline:
+.. _Drag and Drop Problem XML:
 
-``<textline>``
---------------
+Drag and Drop XML
+-----------------
 
-Description
+For more information about how to create drag and drop problems, see `XML Format of Drag and Drop Input
+<https://edx.readthedocs.org/en/latest/course_data_formats/drag_and_drop/drag_and_drop_input.html>`_.
 
-Used in
-
-:ref:`Text Input`
-:ref:`Custom Python Evaluated Input`
-
-Parent
-:ref:`stringresponse`
-
-Children
-
-Attributes
-
-**math** (optional): If this attribute has any value at all, a math preview will display beneath the textbox showing well-formatted math corresponding to student input.
-
-**size** (optional): Defines the size in character widths of the input box as it is displayed to students.
-
-**hidden** (optional): If true, the textbox will be hidden from students.

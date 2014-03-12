@@ -366,7 +366,7 @@ Student Answers
 Math Expression Syntax
 ----------------------
 
-In numerical input problems, the student's input may be more complicated than a
+In numerical input problems, the **student's input** may be more complicated than a
 simple number. Expressions like ``sqrt(3)`` and even ``1+e^(sin(pi/2)+2*i)``
 are valid, and evaluate to 1.73 and -0.13 + 2.47i, respectively.
 
@@ -421,7 +421,7 @@ default. These include:
 Operators and Functions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-As expected, the normal operators apply (with normal order of operations):
+The normal operators apply (with normal order of operations):
 ``+ - * / ^``. Also provided is a special "parallel resistors" operator given
 by ``||``. For example, an input of ``1 || 2`` would represent the resistance
 of a pair of parallel resistors (of resistance 1 and 2 ohms), evaluating to 2/3
@@ -455,8 +455,8 @@ For example, the following example problems require the Advanced Editor.
 
 For more information about including a Python script in your problem, see :ref:`Custom Python Evaluated Input`.
 
-Create a Numerical Input Problem in the Simple Editor
--------------------------------------------------------
+Simple Editor
+-------------
 
 #. Under **Add New Component**, click **Problem**.
 #. In the **Select Problem Component Type** screen, click **Numerical
@@ -502,14 +502,8 @@ following.
    [explanation]
 
 
-Create a Numerical Input Problem in the Advanced Editor
--------------------------------------------------------
-
-Accepted input types include ``<formulaequationinput />`` and ``<textline />``.
-However, the math display on ``<textline math="1" />`` uses a different parser
-and has different capabilities than the response type--this may lead to student
-confusion. For this reason, we strongly urge using ``<formulaequationinput />``
-only, and the examples below show its use.
+Advanced Editor
+---------------
 
 **Problem Code**:
 
@@ -559,141 +553,8 @@ only, and the examples below show its use.
   </solution>
   </problem>
 
-**Templates**
-
-Exact values
-
-.. code-block:: xml
-
-  <problem>
-
-    <numericalresponse answer="10">
-      <formulaequationinput label="label text"/>
-    </numericalresponse>
-
-    <solution>
-    <div class="detailed-solution">
-
-    </div>
-  </solution>
-  </problem>
-
-Answers with decimal precision
-
-.. code-block:: xml
-
-  <problem>
-
-    <numericalresponse answer="9.80665">
-      <responseparam type="tolerance" default="0.01" />
-      <formulaequationinput label="label text"/>
-    </numericalresponse>
-
-    <solution>
-    <div class="detailed-solution">
-
-    </div>
-  </solution>
-  </problem>
-
-Answers with percentage precision
-
-.. code-block:: xml
-
-  <problem>
-
-    <numericalresponse answer="100">
-      <responseparam type="tolerance" default="10%" />
-      <formulaequationinput label="label text"/>
-    </numericalresponse>
-
-    <solution>
-    <div class="detailed-solution">
-
-    </div>
-  </solution>
-  </problem>
-
-Answers with scripts
-
-.. code-block:: xml
-
-  <problem>
-
-  <!-- Use python script spacing. The following should not be indented! -->
-  <script type="loncapa/python">
-  computed_response = math.sqrt(math.fsum([math.pow(math.pi,2), math.pow(math.e,2)]))
-  </script>
-
-    <numericalresponse answer="$computed_response">
-      <responseparam type="tolerance" default="0.0001" />
-      <formulaequationinput label="label text"/>
-    </numericalresponse>
-
-    <solution>
-    <div class="detailed-solution">
-
-    </div>
-  </solution>
-  </problem>
-
-**XML Attribute Information**
-
-<script>
-
-  .. image:: /Images/numericalresponse.png
 
 
-``<numericalresponse>``
-
-+------------+----------------------------------------------+-------------------------------+
-| Attribute  |                 Description                  |              Notes            |
-+============+==============================================+===============================+
-| ``answer`` | A value to which student input must be       | Note that any numeric         |
-|            | equivalent. Note that this expression can be | expression provided by the    |
-|            | expressed in terms of a variable that is     | student will be automatically |
-|            | computed in a script provided in the problem | simplified on the grader's    |
-|            | by preceding the appropriate variable name   | backend.                      |
-|            | with a dollar sign.                          |                               |
-|            |                                              |                               |
-|            | This answer will be evaluated similar to a   |                               |
-|            | student's input. Thus '1/3' and 'sin(pi/5)'  |                               |
-|            | are valid, as well as simpler expressions,   |                               |
-|            | such as '0.3' and '42'                       |                               |
-+------------+----------------------------------------------+-------------------------------+
-
-
-+------------------------+--------------------------------------------+--------------------------------------+
-|       Children         |                 Description                |                 Notes                |
-+========================+============================================+======================================+
-| ``responseparam``      | used to specify a tolerance on the accepted|                                      |
-|                        | values of a number. See description below. |                                      |
-+------------------------+--------------------------------------------+--------------------------------------+
-|``formulaequationinput``| An input specifically for taking math      |                                      |
-|                        | input from students. See below.            |                                      |
-+------------------------+--------------------------------------------+--------------------------------------+
-| ``textline``           | A format to take input from students, see  | Deprecated for NumericalResponse.    |
-|                        | description below.                         | Use ``formulaequationinput`` instead.|
-+------------------------+--------------------------------------------+--------------------------------------+
-
-
-<responseparam>
-
-  .. image:: /Images/numericalresponse4.png
-
-<formulaequationinput/>
-
-========= ============================================= =====
-Attribute                  Description                  Notes
-========= ============================================= =====
-size      (optional) defines the size (i.e. the width)
-          of the input box displayed to students for
-          typing their math expression.
-========= ============================================= =====
-
-<textline> (While <textline /> is supported, its use is extremely discouraged.
-We urge usage of <formulaequationinput />. See the opening paragraphs of the
-Numerical Response section for more information.)
 
 .. _Text input:
 
@@ -708,14 +569,19 @@ the instructor's specified answer exactly, including spelling and
 punctuation, we recommend that you specify more than one attempt for
 text input problems to allow for typographical errors.
 
-.. image:: Images/TextInputExample.gif
+.. image:: Images/TextInputExample.png
  :alt: Image of a text input probem
 
 ==================================
 Create a Text Input Problem
 ==================================
 
-To create a text input problem, follow these steps.
+You can create multiple choice problems in the Simple Editor or in the Advanced Editor.
+
+Simple Editor
+-------------
+
+To create a text input problem in the Simple Editor, follow these steps.
 
 #. Under **Add New Component**, click **Problem**.
 #. In the **Select Problem Component Type** screen, click **Text Input**
@@ -755,116 +621,11 @@ following.
     This can fall to such a low probability that malaria is effectively eradicated 
     from the group (even when the group does not have 100% bednet coverage).
     [explanation]
-    
-=========================================
-Multiple Responses in Text Input Problems
-=========================================
 
-You can specify more than one correct response for text input problems. 
-For example, instead of requiring students to enter exactly "Dr. Martin Luther 
-King, Junior," you can allow answers of "Martin Luther King," "Doctor Martin 
-Luther King," and other variations.
+Advanced Editor
+---------------
 
-To do this, include "or=" (without the quotation marks) before each additional
-correct response.
-
-.. image:: Images/TextInput_MultipleAnswer.gif
- :alt: Image of multiple responses in a text input problem
-
-=========================================
-Case Sensitivity and Text Input Problems
-=========================================
-
-By default, text input problems do not require a case sensitive response. You can change this
-and require a case sensitive answer.
-
-To make a text input response case sensitive, you must use :ref:`Advanced Editor`.
-
-In the advanced editor, you see that the **type** attribute of the **stringresponse** 
-element equals **ci**, for *case insensitive*. For example:
-
-::
-
-    <stringresponse answer="Michigan" type="ci">
-      <textline size="20"/>
-    </stringresponse>
-
-To make the response case sensitive, change the value of the **type** attribute to **cs**.
-
-::
-
-    <stringresponse answer="Michigan" type="cs">
-      <textline size="20"/>
-    </stringresponse>
-    
-=============================================
-Response Field Length of Text Input Problems
-=============================================
-
-By default, the response field for text input problems is 20 characters long. 
-
-You should preview the unit to ensure that the length of the response input field
-accommodates the correct answer, and provides extra space for possible incorrect answers.
-
-If the default response field length is not sufficient, you can change it using :ref:`Advanced Editor`.
-
-In the advanced editor, in the XML block for the answer, you see that the **size** attribute of the **textline** 
-element equals **20**:
-
-::
-
-    <stringresponse answer="Democratic Republic of the Congo" type="ci">
-      <textline size="20"/>
-    </stringresponse>
-
-To change the response field length, change the value of the **size** attribute:
-
-::
-
-    <stringresponse answer="Democratic Republic of the Congo" type="ci">
-      <textline size="40"/>
-    </stringresponse>
-
-====================================================
-Hints and Regular Expressions in Text Input Problems
-====================================================
-
-You can provide hints for common incorrect answers in text input problems. You can also set a text input problem to allow a regular expression as an answer. To do this, you'll have to modify the problem's XML in the Advanced Editor. For more information, see :ref:`String Response`.
-
-Although you can create text input problems by using the Simple Editor in Studio, you may want to see or change the problem's underlying XML. For example, you can add hints that appear when students enter common incorrect answers, or modify the problem's XML so that students can submit regular expressions as answers. 
-
-The regular expression that the student enters must contain the part of the answer that the instructor specifies. For example, if an instructor has specified  ``<answer=".*example answer.*" type="regexp">``, correct answers include ``example answered``, ``two example answers``, or even ``==example answer==``, but not ``examples`` or ``example anser``.
-
-You can add ``regexp`` to the value of the ``type`` attribute, for example: ``type="ci regexp"`` or ``type="regexp"`` or ``type="regexp cs"``. In this case, any answer or hint will be treated as regular expressions.
-
-**Sample Problem**
-
-.. image:: /Images/TextInputExample.gif
- :alt: Image of a string response problem
-
-**XML Tags**
-
-.. list-table::
-   :widths: 20 80
-
-   * - ``<stringresponse>``
-     - Indicates that the problem is a text input problem. 
-   * - ``<textline>``
-     - Child of ``<stringresponse>``. Lists the answer options and contains the ``label`` attribute.
-   * - ``<additional_answer>`` (optional)
-     - Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers.
-   * - ``<hintgroup>`` (optional)
-     - Indicates that the instructor has provided hints for certain common incorrect answers.
-   * - ``<stringhint />`` (optional)
-     - Child of ``<hintgroup>``. Specifies the text of the incorrect answer to provide the hint for. Contains answer, type, name.
-   * - ``<hintpart>``
-     - Contains the name from ``<stringhint>``. Associates the incorrect answer with the hint text for that incorrect answer.
-   * - ``<startouttext />``
-     - Indicates the beginning of the text of the hint.
-   * - ``<endouttext />``
-     - Indicates the end of the text of the hint.
-
-**Sample Problem Code**
+To create this problem in the Advanced Editor, click the **Advanced** tab in the Problem component editor, and then replace the existing code with the following code.
 
 .. code-block:: xml
 
@@ -900,116 +661,113 @@ You can add ``regexp`` to the value of the ``type`` attribute, for example: ``ty
   </solution>
   </problem>
 
-**Template**
+
+
+
+=========================================
+Multiple Responses in Text Input Problems
+=========================================
+
+You can specify more than one correct response for text input problems. 
+For example, instead of requiring students to enter exactly "Dr. Martin Luther 
+King, Junior," you can allow answers of "Martin Luther King," "Doctor Martin 
+Luther King," and other variations. To do this, you can use the Simple Editor or the Advanced Editor.
+
+Simple Editor
+-------------
+
+To specify additional correct responses in the Simple Editor, include "or=" (without the quotation marks) before each additional correct response.
+
+::
+
+    >>What African-American led the United States civil rights movement during the 1960s?<<
+    = Dr. Martin Luther King, Jr.
+    or= Dr. Martin Luther King, Junior
+    or= Martin Luther King, Jr.
+    or= Martin Luther King
+
+
+
+Advanced Editor
+---------------
+
+To specify additional correct responses in the Advanced Editor, add an ``<additional_answer>``  for each correct response inside the opening and closing ``<stringresponse>`` tags.
 
 .. code-block:: xml
 
   <problem>
-      <p>Problem text</p>
-      <stringresponse answer="**.Correct answer 1.**" type="ci regexp">
-          <additional_answer>Correct answer 2</additional_answer>
-          <additional_answer>Correct answer 3</additional_answer>
-          <textline size="20" label="label text"/>
-          <hintgroup>
-              <stringhint answer="Incorrect answer A" type="ci" name="hintA" />
-                <hintpart on="hintA">
-                    <startouttext />Text of hint for incorrect answer A<endouttext />
-                </hintpart >
-              <stringhint answer="Incorrect answer B" type="ci" name="hintB" />
-                <hintpart on="hintB">
-                    <startouttext />Text of hint for incorrect answer B<endouttext />
-                </hintpart >
-              <stringhint answer="Incorrect answer C" type="ci" name="hintC" />
-                <hintpart on="hintC">
-                    <startouttext />Text of hint for incorrect answer C<endouttext />
-                </hintpart >
-          </hintgroup>
-      </stringresponse>
-      <solution>
-      <div class="detailed-solution">
-      <p>Explanation or Solution Header</p>
-      <p>Explanation or solution text</p>
-      </div>
-    </solution>
+
+  <p>What African-American led the United States civil rights movement during the 1960s?</p>
+    
+  <stringresponse answer="Dr. Martin Luther King, Jr." type="ci" >
+    <additional_answer>Dr. Martin Luther King, Junior</additional_answer>
+    <additional_answer>Martin Luther King, Jr.</additional_answer>
+    <additional_answer>Martin Luther King</additional_answer>
+    <textline label="What African-American led the United States civil rights movement during the 1960s?" size="20"/>
+  </stringresponse>
+
   </problem>
 
-**XML Tags**
 
-.. list-table::
-   :widths: 20 80
+=========================================
+Case Sensitivity and Text Input Problems
+=========================================
 
-   * - ``<stringresponse>``
-     - Indicates that the problem is a text input problem. 
-   * - ``<textline>``
-     - Child of ``<stringresponse>``. Lists the answer options and contains the ``label`` attribute.
-   * - ``<additional_answer>`` (optional)
-     - Specifies an additional correct answer for the problem. A problem can contain an unlimited number of additional answers.
-   * - ``<hintgroup>`` (optional)
-     - Indicates that the instructor has provided hints for certain common incorrect answers.
-   * - ``<stringhint />`` (optional)
-     - Child of ``<hintgroup>``. Specifies the text of the incorrect answer to provide the hint for. Contains answer, type, name.
-   * - ``<hintpart>``
-     - Contains the name from ``<stringhint>``. Associates the incorrect answer with the hint text for that incorrect answer.
-   * - ``<startouttext />``
-     - Indicates the beginning of the text of the hint.
-   * - ``<endouttext />``
-     - Indicates the end of the text of the hint.
+By default, text input problems do not require a case sensitive response. You can change this
+and require a case sensitive answer.
 
-**XML Attribute Information**
+To make a text input response case sensitive, you must use :ref:`Advanced Editor`.
 
-<stringresponse>
+In the Advanced Editor, you see that the **type** attribute of the **stringresponse** 
+element equals **ci**, for *case insensitive*. For example:
 
- .. raw:: html
+::
 
-      <table border="1" class="docutils" width="60%">
-        <colgroup>
-        <col width="15%">
-        <col width="75%">
-        <col width="10%">
-        </colgroup>
-        <thead valign="bottom">
-        <tr class="row-odd"><th class="head">Attribute</th>
-        <th class="head">Description</th>
-        <th class="head">Notes</th>
-        </tr>
-        </thead>
-        <tbody valign="top">
-        <tr class="row-even"><td>type</td>
-        <td>(optional) “[ci] [regex]”. Add “ci” if the student response should be graded case-insensitively. The default is to take case into consideration when grading. Add “regexp” for correct answer to be treated as regular expression.</td>
-        <td>&nbsp;</td>
-        </tr>
-        <tr class="row-odd"><td>answer</td>
-        <td>The string that is used to compare with student answer. If "regexp" is not presented in value of <em>type</em> attribute, student should enter value equal to exact value of this attribute in order to get credit. If  "regexp" is presented in value of <em>type</em> attribute, value of <em>answer</em> is treated as regular expression and exact match of this expression and student answer will be done. If search is successful, student will get credit.</td>
-        <td>&nbsp;</td>
-        </tr>
-        </tbody>
-      </table>
+    <stringresponse answer="Michigan" type="ci">
+      <textline size="20"/>
+    </stringresponse>
 
-      <table border="1" class="docutils" width="60%">
-        <colgroup>
-        <col width="15%">
-        <col width="75%">
-        <col width="10%">
-        </colgroup>
-        <thead valign="bottom">
-        <tr class="row-odd"><th class="head">Children</th>
-        <th class="head">Description</th>
-        <th class="head">Notes</th>
-        </tr>
-        </thead>
-        <tbody valign="top">
-        <tr class="row-even"><td>textline</td>
-        <td>used to accept student input. See description below.</td>
-        <td>&nbsp;</td>
-        </tr>
-        <tr class="row-odd"><td>additional_answer</td>
-        <td>todo</td>
-        <td>&nbsp;</td>
-        </tr>
-        </tbody>
-      </table>
+To make the response case sensitive, change the value of the **type** attribute to **cs**.
 
+::
 
-<textline>
+    <stringresponse answer="Michigan" type="cs">
+      <textline size="20"/>
+    </stringresponse>
+    
+=============================================
+Response Field Length of Text Input Problems
+=============================================
 
-  .. image:: /Images/stringresponse2.png
+By default, the response field for text input problems is 20 characters long. 
+
+You should preview the unit to ensure that the length of the response input field
+accommodates the correct answer, and provides extra space for possible incorrect answers.
+
+If the default response field length is not sufficient, you can change it using :ref:`Advanced Editor`.
+
+In the advanced editor, in the XML block for the answer, you see that the **size** attribute of the **textline** element equals **20**:
+
+::
+
+    <stringresponse answer="Democratic Republic of the Congo" type="ci">
+      <textline size="20"/>
+    </stringresponse>
+
+To change the response field length, change the value of the **size** attribute:
+
+::
+
+    <stringresponse answer="Democratic Republic of the Congo" type="ci">
+      <textline size="40"/>
+    </stringresponse>
+
+====================================================
+Hints and Regular Expressions in Text Input Problems
+====================================================
+
+You can provide hints that appear when students enter common incorrect answers in text input problems. You can also set a text input problem to allow a regular expression as an answer. To do this, you'll have to modify the problem's XML in the Advanced Editor. For more information, see :ref:`String Response`.
+
+The regular expression that the student enters must contain the part of the answer that the instructor specifies. For example, if an instructor has specified  ``<answer=".*example answer.*" type="regexp">``, correct answers include ``example answered``, ``two example answers``, or even ``==example answer==``, but not ``examples`` or ``example anser``.
+
+You can add ``regexp`` to the value of the ``type`` attribute, for example: ``type="ci regexp"`` or ``type="regexp"`` or ``type="regexp cs"``. In this case, any answer or hint are treated as regular expressions.

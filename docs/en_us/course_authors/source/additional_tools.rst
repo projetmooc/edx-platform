@@ -134,6 +134,8 @@ Chemical Equation Problem Template
    </solution>
   </problem>
 
+For more information, see :ref:`chemicalequationinput` in :ref:`Appendix E`.
+
 .. _Conditional Module:
 
 ******************

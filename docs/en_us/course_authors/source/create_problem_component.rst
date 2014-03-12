@@ -564,7 +564,7 @@ students to go back and resubmit a problem.
 Problem XML
 ***********
 
-Most problems have the following tags.
+XML tags are generally specific to a problem type. For example, only multiple choice problems contain the ``<multiplechoiceresponse>`` tag, and only drag and drop problems use the ``<draggable>`` tag. However, the following tags are common to most problems.
 
 .. list-table::
    :widths: 20 80
@@ -579,8 +579,12 @@ Most problems have the following tags.
    * - ``<solution> <div class="detailed-solution"> </div> </solution>`` (optional)
      - If you want to include more information in the problem, such as a detailed explanation of the problem's answer, you'll enter the text between the two ``<div>`` tags, which are inside the ``<solution>`` tags. (These tags do not have to be on the same line.)
 
-Additionally, all problems must include a **label** attribute. This attribute adds a descriptive label that helps visually impaired students navigate through the problem.
-You'll add a **label** attribute to one of the XML tags for the problem. Each example problem below includes a label.
+Additionally, several different problem types use the following tags.
 
-textline
-customresponse
+.. list-table::
+   :widths: 20 80
+
+   * - ``<textline>``
+     - Creates an answer space where students enter a response. Must contain a **size** attribute; may contain **label**, **math**, **correct_answer**. Used in text input and some custom Python-evaluated input problems.
+   * - ``<customresponse> </customresponse>``
+     - 
