@@ -81,10 +81,10 @@ Feature: LMS Video component
 
   # 10
   Scenario: Language menu works correctly in Video component
-\    Given I am registered for the course "test_course"
-      And I have a "chinese_transcripts.srt" transcript file in assets
-      And I have a "subs_OEoXaMPEzfM.srt.sjson" transcript file in assets
-      And it has a video in "Youtube" mode:
+    Given I am registered for the course "test_course"
+    And I have a "chinese_transcripts.srt" transcript file in assets
+    And I have a "subs_OEoXaMPEzfM.srt.sjson" transcript file in assets
+    And it has a video in "Youtube" mode:
       | transcripts                       | sub         |
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM |
     And I make sure captions are closed
@@ -97,8 +97,8 @@ Feature: LMS Video component
   # 11
   Scenario: CC button works correctly w/o english transcript in HTML5 mode of Video component
     Given I am registered for the course "test_course"
-      And I have a "chinese_transcripts.srt" transcript file in assets
-      And it has a video in "HTML5" mode:
+    And I have a "chinese_transcripts.srt" transcript file in assets
+    And it has a video in "HTML5" mode:
       | transcripts                       |
       | {"zh": "chinese_transcripts.srt"} |
     And I make sure captions are opened
