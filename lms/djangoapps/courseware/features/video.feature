@@ -185,7 +185,7 @@ Feature: LMS Video component
     And I select the transcript format "txt"
     Then I can download transcript in "txt" format and has text "好 各位同学"
     When I open video "B"
-    Then I can download transcript in "txt" format and has text "0\n00:00:00,270"
+    Then I can download transcript in "txt" format and has text "好 各位同学"
     When I open video "C"
     Then menu "download_transcript" doesn't exist
 
@@ -208,6 +208,7 @@ Feature: LMS Video component
   Scenario: Download button works correctly w/o english transcript in Youtube mode of Video component
     Given I am registered for the course "test_course"
     And I have a "chinese_transcripts.srt" transcript file in assets
+    And I have a "subs_OEoXaMPEzfM.srt.sjson" transcript file in assets
     And it has a video in "Youtube" mode:
       | transcripts                       | sub         | download_track |
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM | true           |
@@ -219,6 +220,7 @@ Feature: LMS Video component
   Scenario: Download button works correctly w/o english transcript in HTML5 mode of Video component
     Given I am registered for the course "test_course"
     And I have a "chinese_transcripts.srt" transcript file in assets
+    And I have a "subs_OEoXaMPEzfM.srt.sjson" transcript file in assets
     And it has a video in "HTML5" mode:
       | transcripts                       | sub         | download_track |
       | {"zh": "chinese_transcripts.srt"} | OEoXaMPEzfM | true           |

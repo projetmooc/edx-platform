@@ -372,6 +372,7 @@ def select_language(_step, code):
 def click_button(_step, button):
     world.css_click(VIDEO_BUTTONS[button])
 
+
 @step('I see video starts playing from "([^"]*)" position$')
 def start_playing_video_from_n_seconds(_step, position):
     world.wait_for(
@@ -403,6 +404,7 @@ def upload_to_assets(_step, filename):
 @step('button "([^"]*)" is hidden$')
 def is_hidden_button(_step, button):
     assert not world.css_visible(VIDEO_BUTTONS[button])
+
 
 @step('menu "([^"]*)" doesn\'t exist$')
 def is_hidden_menu(_step, menu):
@@ -445,8 +447,8 @@ def i_can_download_transcript(_step, format, text):
     url = world.css_find(VIDEO_BUTTONS['download_transcript'])[0]['href']
     request = ReuqestHandlerWithSessionId()
     assert request.get(url).is_success()
-    assert request.check_header('content-type', formats['mime_type'])
-    assert (text in request.content)
+    assert request.check_header('content-type', formats[format])
+    assert (text.encode('utf-8') in request.content)
 
 
 @step('I select the transcript format "([^"]*)"$')
