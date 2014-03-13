@@ -529,6 +529,10 @@ class TestTranscript(unittest.TestCase):
         txt_transcript_convert = transcripts_utils.Transcript.convert(self.srt_transcript, 'srt', 'txt')
         self.assertEqual(txt_transcript_convert, self.txt_transcript)
 
+    def test_convert_srt_to_srt(self):
+        srt_transcript_convert = transcripts_utils.Transcript.convert(self.srt_transcript, 'srt', 'srt')
+        self.assertEqual(srt_transcript_convert, self.srt_transcript)
+
     def test_convert_sjson_to_txt(self):
         txt_transcript_convert = transcripts_utils.Transcript.convert(self.sjson_transcript, 'sjson', 'txt')
         self.assertEqual(txt_transcript_convert, self.txt_transcript)
