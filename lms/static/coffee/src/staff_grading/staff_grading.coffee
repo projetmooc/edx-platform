@@ -356,8 +356,8 @@ class @StaffGrading
     @problem_list_container.toggle(@list_view)
     if @backend.mock_backend
       @message = @message + "<p>NOTE: Mocking backend.</p>"
-    @message_container.html(@message)
-    @error_container.html(@error_msg)
+    @message_container.html(gettext(@message))
+    @error_container.html(gettext(@error_msg))
     @message_container.toggle(@message != "")
     @error_container.toggle(@error_msg != "")
     @flag_submission_checkbox.prop('checked', false)
