@@ -135,10 +135,71 @@ class TestVideo(BaseTestXmodule):
     def tearDown(self):
         _clear_assets(self.item_descriptor.location)
 
-
-class TestVideoTranscriptTranslation(TestVideo):
+class TestTranscriptAvailableTranslationsDispatch(TestVideo):
     """
     Test video handlers that provide translation transcripts.
+
+    Tests for `available_translations` dispatch.
+    """
+    non_en_file = _create_srt_file()
+    DATA = """
+        <video show_captions="true"
+        display_name="A Name"
+        >
+            <source src="example.mp4"/>
+            <source src="example.webm"/>
+            <transcript language="uk" src="{}"/>
+        </video>
+    """.format(os.path.split(non_en_file.name)[1])
+
+    MODEL_DATA = {
+        'data': DATA
+    }
+
+    def setUp(self):
+        super(TestTranscriptAvailableTranslationsDispatch, self).setUp()
+        self.item_descriptor.render('student_view')
+        self.item = self.item_descriptor.xmodule_runtime.xmodule_instance
+        self.subs = {"start": [10], "end": [100], "text": ["Hi, welcome to Edx."]}
+
+    def test_available_translation_en(self):
+        good_sjson = _create_file(json.dumps(self.subs))
+        _upload_sjson_file(good_sjson, self.item_descriptor.location)
+        subs_id = _get_subs_id(good_sjson.name)
+        self.item.sub = subs_id
+
+        request = Request.blank('/translation')
+        response = self.item.transcript(request=request, dispatch='available_translations')
+        self.assertEqual(json.loads(response.body), ['en'])
+
+    def test_available_translation_non_en(self):
+        _upload_file(self.non_en_file, self.item_descriptor.location, os.path.split(self.non_en_file.name)[1])
+        subs_id = _get_subs_id(self.non_en_file.name)
+        self.item.youtube_id_1_0 = subs_id
+
+        request = Request.blank('/translation')
+        response = self.item.transcript(request=request, dispatch='available_translations')
+        self.assertEqual(json.loads(response.body), ['uk'])
+
+    def test_multiple_available_translations(self):
+        good_sjson = _create_file(json.dumps(self.subs))
+        _upload_sjson_file(good_sjson, self.item_descriptor.location)
+        subs_id = _get_subs_id(good_sjson.name)
+        self.item.sub = subs_id
+
+        _upload_file(self.non_en_file, self.item_descriptor.location, os.path.split(self.non_en_file.name)[1])
+        non_en_transcript_id = _get_subs_id(self.non_en_file.name)
+        self.item.youtube_id_1_0 = subs_id
+
+        request = Request.blank('/translation')
+        response = self.item.transcript(request=request, dispatch='available_translations')
+        self.assertEqual(json.loads(response.body), ['en', 'uk'])
+
+class TestTranscriptDownloadDispatch(TestVideo):
+    """
+    Test video handlers that provide translation transcripts.
+
+    Tests for `download` dispatch.
     """
 
     non_en_file = _create_srt_file()
@@ -157,11 +218,10 @@ class TestVideoTranscriptTranslation(TestVideo):
     }
 
     def setUp(self):
-        super(TestVideoTranscriptTranslation, self).setUp()
+        super(TestTranscriptDownloadDispatch, self).setUp()
         self.item_descriptor.render('student_view')
         self.item = self.item_descriptor.xmodule_runtime.xmodule_instance
 
-    # Tests for `download` dispatch:
 
     def test_language_is_not_supported(self):
         request = Request.blank('/download?language=ru')
@@ -195,7 +255,32 @@ class TestVideoTranscriptTranslation(TestVideo):
         with self.assertRaises(NotFoundError):
             self.item.get_transcript()
 
-    # Tests for `translation` dispatch:
+class TestTranscriptTranslationDispatch(TestVideo):
+    """
+    Test video handlers that provide translation transcripts.
+
+    Tests for `translation` dispatch.
+    """
+
+    non_en_file = _create_srt_file()
+    DATA = """
+        <video show_captions="true"
+        display_name="A Name"
+        >
+            <source src="example.mp4"/>
+            <source src="example.webm"/>
+            <transcript language="uk" src="{}"/>
+        </video>
+    """.format(os.path.split(non_en_file.name)[1])
+
+    MODEL_DATA = {
+        'data': DATA
+    }
+
+    def setUp(self):
+        super(TestTranscriptTranslationDispatch, self).setUp()
+        self.item_descriptor.render('student_view')
+        self.item = self.item_descriptor.xmodule_runtime.xmodule_instance
 
     def test_translation_fails(self):
         # No language
