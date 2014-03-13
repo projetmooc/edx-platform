@@ -493,35 +493,46 @@ class TestTranscript(unittest.TestCase):
     Transcript tests
     """
     def setUp(self):
-        self.srt_transcript = textwrap.dedent("""
-            1
-            00:00:10,500 --> 00:00:13,000
-            Elephant`s Dream
 
-            2
+        self.srt_transcript = textwrap.dedent("""\
+            0
+            00:00:10,500 --> 00:00:13,000
+            Elephant&#39;s Dream
+
+            1
             00:00:15,000 --> 00:00:18,000
             At the left we can see...
+
         """)
 
-        self.sjson_transcript = {
-            'start': [1050, 1500],
-            'end': [1300, 1800],
-            'text': [
-                'Elephant`s Dream',
-                'At the left we can see...',
-                ]
-        }
 
-        self.txt_transcript = u"Elephant`s Dream\nAt the left we can see..."
+        self.sjson_transcript = textwrap.dedent("""\
+            {
+                "start": [
+                    10500,
+                    15000
+                ],
+                "end": [
+                    13000,
+                    18000
+                ],
+                "text": [
+                    "Elephant&#39;s Dream",
+                    "At the left we can see..."
+                ]
+            }
+        """)
+
+        self.txt_transcript = u"Elephant's Dream\nAt the left we can see..."
 
     def test_convert_srt_to_txt(self):
         txt_transcript_convert = transcripts_utils.Transcript.convert(self.srt_transcript, 'srt', 'txt')
         self.assertEqual(txt_transcript_convert, self.txt_transcript)
 
     def test_convert_sjson_to_txt(self):
-        txt_transcript_convert = transcripts_utils.Transcript.convert(json.dumps(self.sjson_transcript), 'sjson', 'txt')
+        txt_transcript_convert = transcripts_utils.Transcript.convert(self.sjson_transcript, 'sjson', 'txt')
         self.assertEqual(txt_transcript_convert, self.txt_transcript)
 
     def test_convert_sjson_to_srt(self):
-        srt_transcript_convert = transcripts_utils.Transcript.convert(json.dumps(self.sjson_transcript), 'sjson', 'srt')
+        srt_transcript_convert = transcripts_utils.Transcript.convert(self.sjson_transcript, 'sjson', 'srt')
         self.assertEqual(srt_transcript_convert, self.srt_transcript)
