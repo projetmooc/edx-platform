@@ -14,7 +14,6 @@ import os
 import json
 import logging
 from operator import itemgetter
-from HTMLParser import HTMLParser
 
 from lxml import etree
 from pkg_resources import resource_string
@@ -34,7 +33,6 @@ from xblock.core import XBlock
 from xblock.fields import Scope, String, Float, Boolean, List, Dict, ScopeIds
 from xmodule.fields import RelativeTime
 from .transcripts_utils import (
-    generate_srt_from_sjson,
     get_or_create_sjson,
     TranscriptException,
     generate_sjson_for_all_speeds,

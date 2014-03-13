@@ -333,11 +333,11 @@ def set_captions_visibility_state(_step, captions_state):
 def i_see_menu(_step, menu):
     _open_menu(menu)
     menu_items = world.css_find(VIDEO_MENUS[menu] + ' li')
-    Video = world.scenario_dict['VIDEO']
-    transcripts = dict(Video.transcripts)
-    if Video.sub:
+    video = world.scenario_dict['VIDEO']
+    transcripts = dict(video.transcripts)
+    if video.sub:
         transcripts.update({
-            'en': Video.sub
+            'en': video.sub
         })
 
     languages = {i[0]: i[1] for i in LANGUAGES}

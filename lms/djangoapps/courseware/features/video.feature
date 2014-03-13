@@ -181,11 +181,11 @@ Feature: LMS Video component
       | track               | download_track |
       | http://example.org/ | true           |
     And I open the section with videos
-    Then I can download transcript in "srt" format and has text "0\n00:00:00,270"
+    Then I can download transcript in "srt" format and has text "00:00:00,270"
     And I select the transcript format "txt"
-    Then I can download transcript in "txt" format and has text "好 各位同学"
+    Then I can download transcript in "txt" format and has text "Hi, welcome to Edx."
     When I open video "B"
-    Then I can download transcript in "txt" format and has text "好 各位同学"
+    Then I can download transcript in "txt" format and has text "Hi, welcome to Edx."
     When I open video "C"
     Then menu "download_transcript" doesn't exist
 
