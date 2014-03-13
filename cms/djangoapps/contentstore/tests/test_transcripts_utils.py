@@ -540,3 +540,7 @@ class TestTranscript(unittest.TestCase):
     def test_convert_sjson_to_srt(self):
         srt_transcript_convert = transcripts_utils.Transcript.convert(self.sjson_transcript, 'sjson', 'srt')
         self.assertEqual(srt_transcript_convert, self.srt_transcript)
+
+    def test_convert_srt_to_sjson(self):
+        with self.assertRaises(NotImplementedError):
+            transcripts_utils.Transcript.convert(self.srt_transcript, 'srt', 'sjson')

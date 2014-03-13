@@ -474,7 +474,7 @@ class Transcript(object):
         Accepted output format: srt, txt.
         """
         assert input_format in ('srt', 'sjson')
-        assert output_format in ('txt', 'srt')
+        assert output_format in ('txt', 'srt', 'sjson')
 
         if input_format == output_format:
             return content
@@ -486,7 +486,7 @@ class Transcript(object):
                 return HTMLParser().unescape(text)
 
             elif output_format == 'sjson':
-                raise NotImplemented
+                raise NotImplementedError
 
         if input_format == 'sjson':
 
